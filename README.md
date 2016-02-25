@@ -1,6 +1,7 @@
 # Aurora Twittera
 
-This repository contains the source of the "Aurora Twittera" by me ([Eduardo Graells-Garrido](https://twitter.com/carnby)), done during my PhD thesis (2011-2016).
+This repository contains the source of the "Aurora Twittera" by me ([Eduardo Graells-Garrido](https://twitter.com/carnby)), done during my PhD thesis (2011-2016). +
+You can see this project running live at http://auroratwittera.cl.
 
 The purpose of AT is to build visualization of algorithmic results based on Tweets, aimed at encouraging behavioral change.
 Particularly, it has focused on two different problems:
