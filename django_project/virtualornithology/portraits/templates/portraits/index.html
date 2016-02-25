@@ -1,0 +1,244 @@
+{% extends "site/base.html" %}
+
+{% block header %}
+<link href='{{ STATIC_URL }}css/non-responsive.css' rel='stylesheet' type='text/css'>
+<link href='{{ STATIC_URL }}matta-libs/matta.css' rel='stylesheet' type='text/css'/>
+{% endblock %}
+
+<style>
+{% block style %}
+
+body {
+    padding-top: 2px;
+}
+
+.header {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#public-portraits h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+a.navbar-brand {
+    color: silver;
+    font-weight: bold;
+}
+
+.thumbnail {
+    border: none;
+    margin-bottom: 5px;
+}
+
+.thumbnail .caption {
+    overflow-x: hidden;
+}
+
+.thumbnail p {
+    margin-bottom: 0;
+}
+
+#who-to-follow {
+    padding-top: 10px;
+    height: 610px;
+    overflow-y: 'auto';
+}
+#who-to-follow .recommendation {
+    padding: 5px;
+    padding-left: 10px;
+}
+
+#who-to-follow .recommendation hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+div.panel-heading button {
+    margin-top: -5px;
+    margin-left: 5px;
+}
+
+.inactive_circle {
+    fill: silver;
+    stroke: silver;
+}
+
+p.help-text {
+    margin-top: 100px;
+}
+
+.panel-visualization .panel-body {
+    padding: 0;
+}
+
+img.img-user-avatar {
+margin: auto;
+}
+
+.header a.navbar-brand {
+    height: 40px;
+}
+
+{% block extra_style %}
+{% endblock %}
+{% endblock %}
+</style>
+
+{% block navbar %}
+{% endblock %}
+
+{% block main_sidebar %}
+{% endblock main_sidebar %}
+
+{% block container %}
+<div id="main" class="container">
+  <div class="header">
+    <nav>
+      <ul class="nav nav-pills pull-left">
+        <li><a class="navbar-brand" href="{% url 'portraits:portraits-home' %}">La Aurora Twittera de Chile</a></li>
+      </ul>
+      <ul class="nav nav-pills pull-right">
+            <li role="presentation"><a href="{% url 'timelines:timeline-home' %}"><span class="glyphicon glyphicon-th"></span> Timeline Descentralizado</a></li>
+        {% if user.is_authenticated %}
+            <li role="presentation"><a href="{% url 'portraits:view-portrait' user.username %}"><span class="glyphicon glyphicon-user"></span> @{{ user.username }}</a></li>
+            <li role="presentation"><a href="{% url 'auth:logout' %}?next={% url 'portraits:portraits-home' %}"><span class="glyphicon glyphicon-log-out"></span> Cerrar Sesión</a></li>
+        {% else %}
+            <li role="presentation"><a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}"><span class="glyphicon glyphicon-log-in"></span> Crea tu <em>Perfil Visual</em> (Login)</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+    <span class="clearfix"></span>
+  </div>
+
+{% block body_content %}
+  <div class="jumbotron clearfix">
+    <h2><strong>Perfiles Visuales</strong> <small>@ Aurora Twittera</small></h2>
+    <p class="lead">Los <em>Perfiles Visuales</em> son representaciones interactivas de tu perfil en Twitter, cuyo propósito es <em>ver y explorar</em> tweets
+    de una manera distinta. Puedes explorar los perfiles de demostración que hemos creado o bien <strong>crear tu propio perfil</strong>.</p>
+
+    <p>Cada día actualizaremos tu perfil de acuerdo a la actividad que tengas en Twitter.
+        Además, basándonos en el contenido de tus tweets, en cada actualización generaremos un conjunto de cuentas sugeridas para ti.
+        El algoritmo que estima a quién sugerir está influenciado por la idiosincracia y realidad chilena.
+        Pruébalo, no seas <em>tímid@</em>, y no olvides seguirnos en <strong><a href="https://twitter.com/intent/user?screen_name=todocl">@todocl</a></strong> ;)</p>
+
+    <p>
+    {% if user.is_authenticated %}
+        <a class='btn btn-lg btn-primary' href="{% url 'portraits:view-portrait' user.username %}"><span class="glyphicon glyphicon-user"></span> @{{ user.username }}</a>
+        <a class='btn btn-lg btn-warning' href="{% url 'auth:logout' %}?next={{ request.path }}"><span class="glyphicon glyphicon-log-out"></span> Cerrar Sesión</a>
+    {% else %}
+        <a class='btn btn-lg btn-success' href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}"><span class="glyphicon glyphicon-log-in"></span> Crea tu <em>Perfil Visual</em> (Login)</a>
+    {% endif %}
+    </p>
+
+  <p><small>Si buscas nuestro anterior experimento de <em>Timelines Descentralizados</em>, puedes ver una nueva versión beta <a href="{% url 'timelines:timeline-home' %}">aquí</a>.</small></p>
+  </div>
+
+    <h3>Información del Proyecto</h3>
+      {% if not user.is_authenticated %}
+    <p><span class="label label-warning">Permisos</span> No modificaremos tu perfil ni publicaremos tweets automáticos.
+        Seguiremos a quienes desees hacerlo o publicaremos un tweet para compartir tu perfil solamente si tú lo indicas.</p>
+
+    <p><span class="label label-success">Nosotros</span> Este proyecto es parte de una investigación doctoral sobre representación visual de información. Ante cualquier duda puedes contactar a <strong><a href="https://twitter.com/intent/user?screen_name=carnby">@carnby</a></strong>.</p>
+  {% else %}
+    <p><span class="label label-warning">Permisos</span> Tu perfil es actualizado aproximadamente cada 24 horas. Si deseas desactivarlo basta que en Twitter le quites los
+    permisos de acceso a la Aurora Twittera. Por favor, considera que dicho proceso no es instantáneo.</p>
+  {% endif %}
+
+      <p><span class="label label-info">Acceso</span> Si tu cuenta es protegida (tiene candado), tu perfil no podrá ser visto por nadie más que tú.</p>
+
+<hr />
+
+        <h3>Perfiles Visuales de Demostración</h3>
+        <p>Los siguientes perfiles han sido creados como demostración del sistema. Son cuentas y personas que hemos encontrado en la <em>Twittósfera Chilena</em> y nos parecen
+            interesantes o adhocs a la contingencia del momento.
+           Mostramos los últimos <strong>{{ n_portraits }}</strong> perfiles que hemos creado.
+           Si quieres ver un perfil que no está en esta lista porque lo creamos con anterioridad, puedes buscar el link en nuestro <em><a href="https://twitter.com/intent/user?screen_name=todocl">timeline</a></em>.</p>
+
+        <div id="public-portraits"></div>
+
+{% endblock body_content %}
+    <footer class="footer">
+        <hr />
+        <p><small>Esta es una investigación sobre exploración visual de contenido en redes sociales, en el contexto de la tesis doctoral de <strong><a href="https://twitter.com/intent/user?screen_name=carnby">@carnby</a></strong> |
+            Síguenos en <strong><a href="https://twitter.com/intent/user?screen_name=todocl">@todocl</a></strong> |
+            Construido con
+                <a href="http://d3js.org/" target="_blank">d3.js</a>,
+                <a href="https://github.com/carnby/matta" target="_blank">matta</a>,
+                <a href="http://radimrehurek.com/gensim/" target="_blank">gensim</a>,
+                <a href="https://www.djangoproject.com/" target="_blank">django</a>,
+                <a href="http://getbootstrap.com/" target="_blank">bootstrap</a> |
+                Puedes bajar el código fuente en <a href="https://github.com/carnby/aurora/" target="_blank">github</a>
+                Este sitio funciona mejor en Chrome.
+        </small>
+        </p>
+    </footer>
+
+</div> <!-- /container -->
+
+{% endblock container %}
+
+{% block footer_script %}
+<script>
+
+/**
+ * ¡Hola!
+ * Gracias por ver mi código. No es muy bonito, pero es lo que hay ;) ¡Saludos!
+ * -- Eduardo, @carnby
+ */
+
+{% include "javascript/require-config.js" %}
+
+require(['d3', 'masonry', 'imagesLoaded', 'aurora'], function(d3, masonry, imagesLoaded, aurora) {
+
+    var spinner = aurora.spinner('public-portraits');
+
+    var display_portraits = function(data) {
+        var div = d3.select('#public-portraits');
+        var thumb = div.selectAll('div.portrait-demo').data(data);
+
+        thumb.enter().append('div').classed('portrait-demo', true).style({'width': '183px', 'margin-bottom': 5, 'margin-left': 15, 'display': 'block', 'opacity': 0});
+        thumb.html(function(d) {
+            return '<div class="thumbnail"><a href="' + d.portrait_url + '"><img style="width: 100%;" class="img img-rounded" src="' + d.profile_image_url.replace('normal', '400x400') + '" /></a>' +
+                '<div class="caption">' +
+                    '<h3><a href="' + d.portrait_url + '">@' + d.screen_name + '</a></h3>' +
+                    '<p>' + d.description + '</p>' +
+                    //'<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>' +
+                '</div></div>';
+        });
+
+        imagesLoaded('#public-portraits').on('always', function(instance) {
+            masonry_instance = new masonry('#public-portraits', {
+                itemSelector: '.portrait-demo',
+                columnWidth: 186
+            });
+            spinner.stop();
+            thumb.transition().style('opacity', 1);
+        });
+    };
+
+    var retry = 1000;
+    var load_portraits = function() {
+        d3.json('{% url 'portraits:get-public-portraits' %}', function(error, data) {
+            if (data != null) {
+                console.log(data, imagesLoaded);
+                display_portraits(data);
+            } else {
+                if (retry <= 10000) {
+                    setTimeout(load_portraits, retry);
+                    retry += 500;
+                } else {
+                    alert('Ocurrió un error. Por favor carga la página de nuevo.');
+                }
+
+            }
+        });
+    };
+
+    load_portraits();
+});
+</script>
+{% endblock %}

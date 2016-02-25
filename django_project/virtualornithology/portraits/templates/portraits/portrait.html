@@ -1,0 +1,489 @@
+{% extends "portraits/index.html" %}
+
+<style>
+    {% block extra_style %}
+
+.popover {
+    max-width: 280px;
+}
+
+.popover-content {
+    overflow-x: hidden;
+}
+
+.modal-body {
+    text-align: center;
+}
+
+    {% endblock %}
+</style>
+
+{% block body_content %}
+
+<div id="portrait-exp" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Tus Tweets y Temas</h4>
+      </div>
+      <div class="modal-body">
+        <p>Esta representación visual es una especie de "retrato" de tu actividad en Twitter. Consta de dos partes principales:</p>
+
+        <ul><li>Patrones Temporales, donde puedes observar la cantidad de tweets realizadas en el tiempo a través de un histograma. Cada barra del histograma
+        representa los tweets publicados y retweets hechos en las fechas correspondientes a esa barra. Si haces clic en ella podrás ver un tweet representativo de ella.</li>
+
+            <li>Temas y conceptos más comunes en una nube de palabras. Hemos procesado los tweets publicados en tu cuenta para identificar las palabras, menciones y conceptos
+            más frecuentes. Además, al hacer clic en un element de la nube, una línea unirá el concepto con las barras del histograma, indicándote cuándo hablaste del tema correspondiente.
+            Además, al hacer eso, si vuelves a hacer clic en una barra del histograma, esta vez el tweet que se mostrará tendrá relación con el concepto elegido.</li>
+
+            <li>Si un tweet tiene una imagen, puedes hacer clic en ella para verla más grande.</li>
+        </ul>
+
+        <p>De este modo, utilizando esta representación visual puedes tener una visión global de tu actividad en Twitter, y a su vez puedes explorar los tweets y retweets publicados,
+        tanto por fecha como por tema.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="tweet-img" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="recommendations-exp" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Recomendaciones</h4>
+      </div>
+      <div class="modal-body">
+        <p>La lista de personas y cuentas que aparece ha sido calculada mediante procesamiento de lenguaje de tus tweets y de los tweets
+        recogidos en la colecta diaria de la Aurora Twittera.</p>
+
+        <p>De entre las miles de cuentas que publican tweets en Chile cada día, hemos elegido las que nuestro algoritmo sugiere para ti.</p>
+
+        <p>Al hacer clic en el botón <button class="btn btn-sm btn-primary">Seguir</button> de cada recomendación, nuestro sistema automáticamente hará que sigas a
+        la cuenta de interés. ¡Gracias por conectarte con la Aurora Twittera! :)</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="public-profile">
+    <div id="profile" class="row"></div>
+
+    <div id="data-portrait" class="panel panel-default panel-visualization" style="display: none;">
+        <div class="panel-heading">Perfil Visual de Temas Frecuentes
+            <button id="portrait-reset" class="btn btn-sm btn-primary pull-right" >Reiniciar Visualización</button>
+            <button id="portrait-help" class="btn btn-sm btn-info pull-right" data-toggle="modal" data-target="#portrait-exp">¿Cómo Funciona?</button>
+            {% if show_recommendations %}
+            <button id="portrait-share" class="btn btn-sm btn-reverse pull-right">Compartir en Twitter</button>
+            {% endif %}
+        </div>
+        <div class="panel-body"><div id="portrait"></div></div>
+    </div>
+</div>
+
+{% if show_recommendations %}
+<div id="recommendations" class="panel panel-default panel-visualization" style="display: none;">
+    <div class="panel-heading">Recomendaciones Personalizadas Basadas en Análisis de tu Contenido
+        <button id="recommendation-help" class="btn btn-sm btn-info pull-right" data-toggle="modal" data-target="#recommendations-exp">¿Cómo Funciona?</button>
+    </div>
+    <div class="panel-body">
+        <div id="who-to-follow"></div>
+    </div>
+</div>
+{% endif %}
+
+<div>
+    {% if demo_portrait %}
+    <div class="alert alert-warning">Este es un <strong>perfil de demostración</strong> creado a partir de los tweets públicos de <strong>@{{ portrait_screen_name }}</strong>. Si eres el/la dueño/a de este perfil, puedes
+    reclamarlo al conectar tu cuenta a la Aurora Twittera, o puedes pedir su desactivación a <strong><a href="https://twitter.com/intent/user?screen_name=todocl">@todocl</a></strong>.</div>
+    {% endif %}
+    {% if show_recommendations %}
+    <div class="alert alert-info"><strong>Tu perfil es actualizado una vez al día</strong>. Si deseas desactivarlo basta que en la configuración de tu perfil en Twitter le quites los
+    permisos de acceso a la Aurora Twittera. Por favor, considera que dicho proceso no es instantáneo.</div>
+    {% endif %}
+</div>
+{% endblock body_content %}
+
+{% block footer_script %}
+<script>
+/**
+ * ¡Hola!
+ * Gracias por ver mi código. No es muy bonito, pero es lo que hay ;) ¡Saludos!
+ * -- @carnby
+ */
+
+{% include "javascript/require-config.js" %}
+
+require.config({
+    'paths': {
+        'portrait_graph': '{{ STATIC_URL }}vis/matta.portrait',
+        'matta_circlepack': '{{ STATIC_URL }}vis/matta.recommendations'
+    }
+});
+
+require(['d3', 'portrait_graph', 'matta_circlepack', 'seedrandom', 'matta', 'aurora', 'moment'],
+function(d3, portrait_graph, portrait_recommendations, seedrandom, matta, aurora, moment) {
+    moment.locale('es');
+
+    var data_portrait = portrait_graph().width(938);
+
+    data_portrait.on('built_time_axis', function(time_axis) {
+        // thank you, http://stackoverflow.com/a/25626318 !!! =D
+        var d3_time_format = aurora.es_locale().timeFormat.multi([
+            ["%H:%M", function(d) { return d.getMinutes(); }],
+            ["%H:%M", function(d) { return d.getHours(); }],
+            ["%a %d", function(d) { return d.getDay() && d.getDate() != 1; }],
+            ["%b %d", function(d) { return d.getDate() != 1; }],
+            ["%B", function(d) { return d.getMonth(); }],
+            ["%Y", function() { return true; }]
+        ]);
+        time_axis.tickFormat(d3_time_format);
+    });
+
+    {% include "portraits/interaction-logging.js" %}
+
+    var spinner = aurora.spinner('main');
+
+    d3.select('#timeline').style('width', 2 + data_portrait.width() + 'px');
+
+    d3.json('{%  url 'portraits:get-portrait' portrait_screen_name %}', function(error, data) {
+        console.log('data', data);
+        matta.prepare_graph(data);
+
+        // the profile
+        d3.select('#profile').datum(data.portrayed_user)
+                .html(function (d) {
+                    var name = '@' + d.screen_name;
+                    if (d.name && d.name != '') {
+                        name += ' <small>' + d.name + '</small>';
+                    }
+
+                    return '<div class="col-sm-2"><p style="text-align: center;"><a target="_blank" class="profile" href="https://twitter.com/intent/user?screen_name=' + d.screen_name + '">' +
+                            '<img class="img img-user-avatar img-rounded" width="128" height="128" src="' + d.profile_image_url.replace('normal', '200x200') + '" />' +
+                            '</a></p></div>' +
+                            '<div class="col-sm-10"><h2 style="margin-top: 10px; font-weight: bold;">' +
+                            '<a target="_blank" href="https://twitter.com/intent/user?screen_name=' + d.screen_name + '">' + name + '</a>' +
+                            '</h2>' +
+                            '<p style="margin-bottom: 2px;">' + d.description + '</p>' +
+                            '<div id="portrait-meta"><small><strong>Última Actualización</strong>: ' + moment('{{ last_update }}').fromNow() + '.</small></div>' +
+                            '</div>';
+                });
+
+        if (data.nodes.length < 10 || data.portrayed_user.statuses_count < 10) {
+            d3.select('#data-portrait').classed('panel panel-default', false).style('display', 'block').html('<div class="panel-body"><div class="alert alert-warning"><strong>Lamentablemente no tenemos suficientes datos para poder generar este <em>perfil visual</em></strong>. ' +
+                    'Sugerimos que publiques más tweets y sigas a más personas para que pronto podamos recolectar esa información y ' +
+                    'así generar recomendaciones personalizadas para ti.</div></div>');
+            spinner.stop();
+            return;
+        }
+
+        d3.select('#data-portrait').style('display', 'block');
+
+        // the portrait
+        // we do this just before rendering the portrait, so the random numbers generated during wordcloud generation are the same
+        // every time the page is loaded.
+        Math.random = seedrandom('pajaritos');
+
+        d3.select('#portrait').datum({'graph': data})
+            .call(data_portrait);
+
+        d3.select('#portrait-reset').on('click.log', function() {
+            data_portrait.reset();
+            log_event({'name': 'portrait_reset'});
+        });
+
+        d3.select('#portrait-help').on('click.log', function() {
+            data_portrait.clean_popups();
+            log_event({'name': 'portrait_help'});
+        });
+
+        {% if show_recommendations %}
+        d3.select('#portrait-share').on('click.log', function() {
+            var self = d3.select(this);
+            aurora.xhr_post('{%  url 'portraits:action-share' %}', {'source': '{{ portrait_screen_name }}'}, function(error, response) {
+                if (response != null) {
+                    self.classed('disabled', true);
+                    log_event({'name': 'portrait_share', 'source': '{{ portrait_screen_name }}'});
+                    self.attr('opacity', 1.0).transition().attr('opacity', 0.0).remove();
+                    aurora.notify('<strong>@{{ portrait_screen_name }}</strong> Compartido',
+                            '<p>Hemos compartido un link a tu perfil a través de tu cuenta en Twitter. ¡Gracias!<p>',
+                            'success');
+                }
+            });
+        });
+        {% endif %}
+
+        spinner.stop();
+        log_event({'name': 'portrait_loaded', 'screen_width': screen.width, 'screen_height': screen.height, 'hash': window.location.hash});
+        init_interaction_logging();
+
+        d3.select('#profile').select('img.img-user-avatar').on('load', function() {
+            d3.select('body').insert('div').classed('portrait-loaded', true).style('display', 'none');
+        });
+
+        data_portrait
+            .on('bin_click.log', function(d, i) {
+                log_event({'name': 'portrait_bin_click', 'reference_date': d.x, 'length': d.length});
+
+                d3.select('#portrait').selectAll('a').on('click.log', function() {
+                    log_event({'name': 'portrait_link_click', 'target': d3.select(this).attr('href')});
+                });
+            })
+            .on('word_click.log', function(d, i) {
+                log_event({'name': 'portrait_word_click', 'word': d.text, 'size': d.size});
+            })
+            .on('shown_tweet.img', function(d, i) {
+                console.log('tweet shown', this, d, i);
+                var popover = d3.select('#portrait').select('.popover');
+                console.log('popover', popover);
+
+                if (d.hasOwnProperty('media')) {
+                    var img = popover.select('img.tweet-media');
+                    console.log('img', window.innerWidth, window.innerHeight);
+
+                    img.on('click.modal', function() {
+                        $('#tweet-img').css('display', 'block');
+
+                        d3.select('#tweet-img.modal div.modal-body')
+                                .html('<img src="' + img.attr('src') + '" />')
+                                .select('img')
+                                .style({'max-height': window.innerHeight * 0.8 + 'px',
+                                        'max-width': '100%'}
+                                );
+
+                        var $dialog = $('#tweet-img').find(".modal-dialog");
+                        var offset = (window.innerHeight - $dialog.height()) / 2;
+
+                        if (offset > 0) {
+                            $dialog.css("margin-top", offset);
+                        }
+
+                        data_portrait.clean_popups();
+                        $('#tweet-img').modal('show');
+                        log_event({'name': 'portrait_image_click', 'target': d3.select(this).attr('href')});
+                    });
+                }
+            });
+    });
+
+    {% if show_recommendations %}
+
+    {% if condition_ui == 'baseline' %}
+    var masonry_instance = null;
+    {% endif %}
+
+    var recommendation_html = function (sel) {
+        sel.html(function(d) {
+            //console.log('rec', d);
+            var name = '@' + d.screen_name;
+            if (d.name && d.name != '') {
+                name += ' <br /><small>' + d.name + '</small>';
+            }
+
+            var button = d.hasOwnProperty('__followed__') ? '' : '<button class="btn btn-follow btn-primary btn-sm pull-right">Seguir</button>';
+
+            return '<div class="media">' +
+                    '<div class="media-left">' +
+                    '<a target="_blank" class="profile" href="https://twitter.com/intent/user?screen_name=' + d.screen_name + '">' +
+                    '<img class="img img-round" width="48" height="48" src="' + d.profile_image_url + '">' +
+                    '</a>' +
+                    '</div>' +
+                    '<div class="media-body">' + button +
+                    '<h4 class="media-heading">' +
+                    '<a target="_blank" class="profile" href="https://twitter.com/intent/user?screen_name=' + d.screen_name + '">' + name + '</a>' +
+                    '</h4>' +
+                    d.description +
+                    '</div>' +
+                    '<hr class="clearfix"/></div>';
+        }).each(function(d) {
+            var self = d3.select(this);
+
+            self.select('button.btn-follow').on('click', function() {
+                //console.log('click button', d);
+                var params = {
+                    'source': '{{ user }}',
+                    'target': d.id_str
+                };
+                var elem = this;
+                //console.log('post params', params);
+                aurora.xhr_post('{%  url 'portraits:action-follow' %}', params, function(error, response) {
+                    //console.log('response', response);
+                    //console.log('error', error);
+                    if (response != null) {
+                        //console.log(elem);
+                        d3.select(elem).remove();
+                        d['__followed__'] = true;
+                        log_event({'name': 'portrait_rec_follow', 'source': '{{ portrait_screen_name }}', 'target': d.id_str, 'rank': d.rank});
+                        aurora.notify('Has seguido a <strong>@' + d.screen_name + '</strong>',
+                            '<p>En tu perfil de Twitter ahora sigues a @' + d.screen_name + '. Recuerda que las sugerencias se actualizan día a día, vuelve mañana para recibir más. ¡Gracias!<p>',
+                            'success');
+                    }
+                });
+            });
+
+            self.selectAll('a.profile').on('click', function() {
+                log_event({'name': 'portrait_rec_click', 'source': '{{ portrait_screen_name }}', 'target': d.id_str, 'rank': d.rank});
+            });
+        });
+    };
+
+    d3.json('{% url 'portraits:get-recommendations' portrait_screen_name %}', function(error, data) {
+        // recommendations
+        //console.log('recommendations', data, error);
+
+        if (error !== null || data === null) {
+            console.log('no valid recommendations');
+            return;
+        }
+
+        var candidates = [];
+
+        data.children.forEach(function(topics) {
+            //console.log('topic', topics);
+            topics.children.forEach(function(candidate) {
+                candidates.push(candidate.content);
+            })
+        });
+
+        //console.log(candidates);
+
+        Math.random = seedrandom('bladerunner');
+        if (candidates.length > 0) {
+            {% if condition_ui == 'baseline' %}
+                var recommendation = d3.select('#who-to-follow').selectAll('div.media').data(candidates, function (d) {
+                    return d.pk;
+                });
+                recommendation.enter()
+                    .append('div')
+                    .classed('recommendation', true)
+                    .style({'width': '33%'})
+                    .call(recommendation_html);
+
+                recommendation.exit().remove();
+
+                var masonry_recs = function () {
+                    if (masonry_instance == null) {
+                        require(['masonry'], function (masonry) {
+                            masonry_instance = new masonry('#who-to-follow', {
+                                itemSelector: '.recommendation'
+                            });
+                        });
+                    } else {
+                        masonry_instance.reloadItems();
+                        masonry_instance.layout();
+                    }
+
+                };
+
+                masonry_recs();
+            {% else %}
+                var recommendation_vis = portrait_recommendations().width(550);
+                var wtf = d3.select('#who-to-follow');
+                wtf.datum({'tree': data}).call(recommendation_vis);
+
+                var svg = d3.select('#who-to-follow').select('svg');
+                svg.classed('pull-left', true);
+
+                var div = wtf.append('div')
+                    .style({
+                        'margin-left': recommendation_vis.width() + 2 + 'px',
+                        'width': (938 - recommendation_vis.width() - 10) + 'px',
+                        'height': (recommendation_vis.height() - 15) + 'px',
+                        'overflow-y': 'auto',
+                        'padding-top': '1em'
+                    })
+                    .html('<p class="help-text"><span class="label label-info">NOTA</span> Puedes hacer clic en alguno de los grupos de cuentas sugeridas en la visualización de círculos a la izquierda de este texto.</p>' +
+                           '<p class="help-text">Las cuentas sugeridas están agrupadas temáticamente de acuerdo al análisis realizado por nuestros algoritmos. Cada cuenta sugerida ha presentado similitudes temáticas con tus propios tweets.</p>');
+
+                var defs = svg.insert('defs', ':first-child');
+
+                wtf.selectAll('g.node').filter(function(d) { return d.depth == 0}).style('display', 'none');
+                wtf.selectAll('g.node circle').classed('inactive_circle', true);
+                wtf.selectAll('text').style('display', 'none');
+
+                wtf.selectAll('g.node').filter(function(d) { return d.depth == 2}).each(function(d) {
+                    //console.log('circle', d);
+                    defs.append('clipPath')
+                        .attr('id', 'clip-circle-' + d.content.pk)
+                        .append('circle')
+                        .attr({'r': d.r - recommendation_vis.node_padding() - 1, 'cx': 0, 'cy': 0});
+
+                    d3.select(this).append("image")
+                        .attr('xlink:href', d.content.profile_image_url.replace('normal', '400x400'))
+                        .attr('width', d.r * 2)
+                        .attr('height', d.r * 2)
+                        .attr('clip-path', 'url(#clip-circle-' + d.content.pk + ')')
+                            .attr('x', -d.r)
+                            .attr('y', -d.r);
+                });
+
+                wtf.selectAll('g.node').filter(function(d) { return d.depth > 0}).on('click', function(node) {
+                    //console.log('click');
+                    log_event({'name': 'portrait_rec_group_click'});
+
+                    div.selectAll('p.help-text').remove();
+
+                    var children = node.depth == 1 ? node.children : node.parent.children;
+                    var candidates = children.map(function (c) {
+                        return c.content;
+                    });
+                    //console.log('candidates', node, candidates);
+
+                    var candidate_div = div.selectAll('div.recommendation')
+                        .data(candidates, function (c) { return c.pk; });
+                    //console.log('sel', candidate_div);
+                    candidate_div.enter().append('div').classed('recommendation', true);
+                    candidate_div.exit().remove();
+
+                    candidate_div.call(recommendation_html);
+
+                    wtf.selectAll('g.node circle').classed('inactive_circle', true);
+                    wtf.selectAll('g.node circle')
+                        .filter(function(other) { return other == node || node.parent == other; })
+                        .classed('inactive_circle', false);
+                });
+            {% endif %}
+        } else {
+            d3.select('#who-to-follow').html('<div class="panel-body"><p>Lamentablemente no tenemos suficientes datos para poder recomendarte cuentas para seguir. ' +
+                'Sugerimos que publiques más tweets y sigas a más personas para que pronto podamos recolectar esa información y ' +
+                'así generar recomendaciones personalizadas para ti.</p></div>');
+        }
+
+        d3.select('#recommendation-help').on('click.log', function() {
+            log_event({'name': 'portrait_rec_help'});
+        });
+
+        d3.select('#recommendations').style('display', 'block');
+
+        log_event({'name': 'portrait_recs_loaded'});
+        bind_twitter_events();
+    });
+    {% endif %}
+
+    {% if not user.is_authenticated %}
+        aurora.notify('¡Hola!', '<p>Estás viendo el perfil de <strong>@{{ portrait_screen_name }}</strong>. Recuerda que puedes crear un perfil propio ' +
+                'cliqueando <em><a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Crea tu Perfil Visual</a></em>.</p>', 'info');
+    {% endif %}
+});
+
+</script>
+{% endblock %}

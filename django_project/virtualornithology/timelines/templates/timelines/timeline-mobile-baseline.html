@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+ <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>La Aurora Twittera de Chile</title>
+    <link href="{{ STATIC_URL }}libs/bootstrap-3.2.0-dist/css/bootstrap-darkly.min.css" rel="stylesheet" />
+    <link href='{{ STATIC_URL }}libs/pnotify/pnotify.custom.min.css' rel='stylesheet' type='text/css'>
+
+    <script src="{{ STATIC_URL }}libs/require.js"></script>
+    <script src="{{ STATIC_URL }}libs/modernizr.custom.js"></script>
+    <script src="{{ STATIC_URL }}libs/jquery-1.7.2.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/pnotify/pnotify.custom.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    {% block header %}
+    {% endblock%}
+
+    <style>
+    body {
+        height: 100%;
+    }
+
+    .navbar-header {
+        width: 100%;
+    }
+
+    .container-fluid {
+        width: 95%;
+    }
+
+    .footer {
+        padding-top: 0.4em;
+    }
+
+    .jumbotron {
+        text-align: center;
+    }
+
+    {% block style %}
+        div.single-tweet { margin: auto; margin-bottom: 1em; }
+        div.single-tweet div.panel { margin-bottom: 5px; }
+        div.panel-footer { padding: 4px 15px; border-top: none; }
+        #timeline { margin: auto; padding-top: 1em; }
+        div.aurora { margin: auto; }
+
+        {% if approach == 'clustered' %}
+        div.clustered-tweets { margin: auto; }
+        div.clustered-tweets div.panel { margin-bottom: 5px; }
+        div.panel-heading { padding: 4px 15px; border-bottom: none; }
+        {% endif %}
+    {% endblock style %}
+    </style>
+</head>
+
+<body>
+
+
+
+{% include "timelines/about.html" %}
+
+
+<div id="main">
+    <div class="container-fluid">
+        <div class="jumbotron">
+            <h1><a href="#about" data-toggle="modal" data-target="#about-modal">Aurora Twittera de Chile</a></h1>
+            <p id="timeline-created-at" class="muted"></p>
+        </div>
+        {% block content %}
+        <div id="timeline" class="panel-group">
+        </div>
+        {% endblock content %}
+
+        <hr />
+        {% block footer %}
+        <div class="footer">
+            <p><small>
+            Un experimento de <a href="http://twitter.com/intent/user?screen_name=carnby">@carnby</a> | <a href="http://ficciones.cl" target="_blank">ficciones</a> |
+                <a href="http://carnby.github.io" target="_blank">github</a>.
+            </small></p>
+        </div>
+        {% endblock%}
+    </div>
+</div>
+
+{% autoescape off %}
+<script>
+/**
+ * ¡Hola!
+ * Gracias por ver mi código. No es muy bonito, pero es lo que hay ;) ¡Saludos!
+ * -- Eduardo, @carnby
+ */
+
+{% include "timelines/csrf-cookie.js" %}
+{% include "timelines/require-config.js" %}
+
+require(['d3', 'moment', 'underscore', 'spin'], function(d3, moment, _, Spinner) {
+    moment.locale('es');
+    {% include "timelines/spinner.js" %}
+    {% include "timelines/tweet-template.js" %}
+
+    {% if approach != 'baseline' %}
+    var nest_by_location = function(data) {
+        var nest = d3.nest().key(function(d) {
+            return +d.fields.geolocation;
+        });
+        var nested = nest.entries(data);
+
+        var entries = {key: 'root', children: [], weight: 0};
+
+        nested.forEach(function(d, i) {
+            var location = {key: 'location-' + d.key, pk: d.key};
+            location.children = d.values.map(function(tweet) {
+               return {key: 'tweet-' + tweet.pk, content: tweet, children: null, parent: d, weight: tweet.fields.weight};
+            });
+            entries.children.push(location);
+        });
+
+        entries.children.forEach(function(d) {
+            d.weight = d3.sum(d.children, function(e) { return e.weight});
+        });
+
+        entries.weight = d3.sum(entries.children, function(e) { return e.weight});
+
+        return entries;
+    };
+    {% endif %}
+
+    {% include "timelines/color-scales.js" %}
+    {% include "timelines/interaction-logging.js" %}
+
+    var categories = d3.map();
+    var location_id_map = d3.map();
+    var location_id = function(location_pk) { return location_id_map.get(location_pk); };
+
+    {% include "timelines/location-filters.js" %}
+
+    var current_data = null;
+    var current_tweet_data = function() {
+        return current_data.tweets;
+    };
+
+
+    {% include "timelines/twitter-logging.js" %}
+    {% include "timelines/window-size.js" %}
+
+    {% block render_function %}
+    {% include "timelines/timeline-baseline.js" %}
+    {% endblock render_function %}
+
+    // fight!
+    {% if timeline_id %}
+    d3.json("{%  url 'timelines:timeline-id' timeline_id %}", function(error, json) {
+    {% else %}
+    d3.json("{%  url 'timelines:latest-timeline' %}", function(error, json) {
+    {% endif %}
+        spinner.stop();
+        current_data = json;
+
+        if (error == null) {
+            console.log('data', current_data);
+            console.log('error', error);
+            timeline_pk = current_data.pk;
+
+            if (current_data.hasOwnProperty('created_at')) {
+                d3.select('#timeline-created-at')
+                    .html(moment(current_data.created_at).format('LLLL'));
+            }
+
+            prepare_categories(current_data.metadata.locations, current_data.tweets);
+            render(current_tweet_data());
+            log_event({'name': 'loaded', 'screen_width': screen.width, 'screen_height': screen.height});
+            timer_id = window.setInterval(send_events, 1000 * n_seconds);
+            bind_twitter_events();
+        } else {
+            require(['pnotify'], function(PNotify) {
+                $(function(){
+                    new PNotify({
+                        title: 'Error',
+                        text: '<p>Ha ocurrido un error. ¿Has ingresado una URL válida?</p>',
+                        delay: 8000,
+                        type: 'error'
+                    });
+                });
+            });
+        }
+    });
+});
+
+</script>
+{% endautoescape %}
+<!-- {% csrf_token %} -->
+</body>
+</html>

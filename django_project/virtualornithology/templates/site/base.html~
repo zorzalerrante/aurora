@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+ <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Estudio de Usuarios</title>
+    <link href="{{ STATIC_URL }}libs/bootstrap3/css/bootstrap.min.css" rel="stylesheet" />
+    <!--
+    <link href="{{ STATIC_URL }}css/graphics.css" rel="stylesheet" />
+    <link href="{{ STATIC_URL }}css/axis.css" rel="stylesheet" />
+    -->
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/modernizr.custom.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/bootstrap3/js/bootstrap.min.js"></script>
+    
+    <!--
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/d3.v3.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/underscore-min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/queue.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/topojson.v1.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/d3.geo.tile.v0.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/d3.hexbin.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/moment.min.js"></script>
+    -->
+    
+    {% block header %}
+    {% endblock%}
+
+    <style>
+    body { padding-top: 70px; }
+    </style>
+</head>
+
+<body>
+   
+{% block navbar %}
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Experimento Twitter</a>
+          
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Link</a></li>
+                {% if user.is_authenticated %}
+                    <li>Welcome, {{ user.username }}. Thanks for logging in.</li>
+                {% else %}
+                    <li>Welcome, new user. Please log in.</li>
+                {% endif %}
+            </ul>
+    </div>
+  </div><!-- /.container-fluid -->
+</nav>
+{% endblock %}
+
+<div class="container">
+
+    {% block content %}
+    {% endblock %}
+
+    {% block footer %}
+
+    <div class="clearfix"></div>
+    <hr />
+    Un experimento de <a href="http://twitter.com/intent/user?screen_name=carnby"><strong>@carnby</strong></a>, como parte de su tesis doctoral. Recuerda que solamente funciona con navegadores estandares como Mozilla Firefox, Google Chrome, Safari y Opera. Gracias! :)
+
+    {% endblock%}
+</div>
+
+<!--
+<script type="text/javascript" src='{{ STATIC_URL }}vis/base.js'></script>
+-->
+<script>
+$('.form-group input[type="text"]').addClass('form-control');
+$('.form-group input[type="radio"]').removeClass('form-control');
+$('.form-group select').addClass('form-control');
+</script>
+{% autoescape off %}
+{% block scripts %}
+{% endblock %}   
+{% endautoescape %}
+<!-- {% csrf_token %} -->
+</body>
+</html>

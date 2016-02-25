@@ -1,0 +1,34 @@
+from .models import Tweet
+import gensim
+
+def dictionary_from_tweets(tweets, characterizer, dictionary=None, stopwords=None, no_below=5, no_above=1.0):
+    if dictionary is None:
+        
+        dictionary = gensim.corpora.Dictionary()
+
+    for tweet in tweets.only('text'):
+        char = characterizer.characterize_text(tweet.text)
+        dictionary.doc2bow(char['keywords'], allow_update=True)
+
+    if stopwords:
+        stopword_ids = [dictionary.token2id[word] for word in stopwords if word in dictionary.token2id]
+        dictionary.filter_tokens(bad_ids=stopword_ids)
+
+    dictionary.filter_extremes(no_below=no_below, no_above=no_above, keep_n=None)
+
+    return dictionary
+
+
+class TweetCorpus(object):
+    def __init__(self, tweets, dictionary, characterizer):
+        self.characterizer = characterizer
+        self.dictionary = dictionary
+        self.tweets = tweets
+
+    def __len__(self):
+        return tweets.count()
+
+    def __iter__(self):
+        for tweet in self.tweets.only('text'):
+            char = self.characterizer.characterize_text(tweet.text)
+            yield self.dictionary.doc2bow(char['keywords'], allow_update=False)

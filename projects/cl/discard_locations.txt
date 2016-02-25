@@ -1,0 +1,1537 @@
+A Coruña
+Albacete
+Alcalá de Henares
+Alicante
+Alicante, España
+Almaraz
+Almeria
+Argentina
+Argentina, Buenos Aires
+Arizona
+Arteixo
+Asturias
+Asuncion
+Asuncion, Paraguay
+Santo Domingo
+Atlanta
+Atlanta, GA
+Australia
+Badajoz
+Badalona
+Bandung
+Barcelona
+Barcelona, Catalunya
+Barcelona, España
+Barcelona, Spain
+Barquisimeto
+Barquisimeto, Venezuela
+Barranquilla
+Barranquilla, Colombia
+Belem
+Belem, PA
+Belo Horizonte
+Berkeley, CA
+Berlin
+Bilbao
+Bogota
+Bogota Colombia
+Bogota, Colombia
+Bolivia
+Brasil
+Brasilia
+Brazil
+Bs As
+Bucaramanga
+Buenos Aires
+buenos aires argentina
+Buenos Aires, Argentina
+Buenos Aires,Argentina
+Burgos
+Cadiz
+Cadiz, España
+Cali
+Cali colombia
+Cartagena, Colombia
+Cartagena de Indias
+Pontevedra
+Baires
+Barinas
+San Juan
+Guadalupe, N.L.
+Guadalupe
+Guadalajara, Jalisco
+Tabasco
+Tucuman
+Tucuman, Argentina
+New Jersey
+Maryland
+cali, colombia
+birmingham
+California
+california, usa
+Campeche
+Canada
+Canarias
+Cancun
+Capital Federal
+Caracas
+Caracas Venezuela
+Caracas, Venezuela
+Caracas,Venezuela
+Catalunya
+Cartagena
+Chiapas
+Chicago
+Chicago, IL
+Ciudad de Buenos Aires
+Ciudad de Mexico
+Ciudad de Panama
+Colombia
+Cordoba
+Cordoba Argentina
+Cordoba, Argentina
+Costa Rica
+Cuba
+Cucuta
+Santa Cruz
+Curitiba
+DF
+Distrito Federal
+Dominican Republic
+Ecuador
+El Salvador
+El Terrat, Barcelona
+England
+España
+ESSEX
+Estado de Mexico
+Estados Unidos
+Estados Unidos de America
+Florianopolis
+Fortaleza
+Fortaleza, CE
+France
+France, Paris
+Francia
+Galicia
+Germany
+Gerona
+Gijon
+Girona
+Granada
+Guadalajara
+Guadalajara, Mexico
+Guatemala
+Guayaquil
+Guayaquil, Ecuador
+Guachupita
+guachupiita
+guachupiita city
+morelia, méxico
+méxico, méxico.
+Haiti
+Hollywood
+Honduras
+Houston, TX
+Huelva
+Huelva, España
+Ibague
+Indonesia
+Ireland
+Irlanda
+Islas Canarias
+Italia
+Italy
+Jaen
+Jakarta
+Jakarta, Indonesia
+Jamaica
+Japan
+Japon
+Joao Pessoa
+Joao Pessoa - PB
+Joinville
+L'Hospitalet
+La Plata
+La Plata, Argentina
+Las Palmas de Gran Canaria
+Las Vegas
+Las Vegas, NV
+Leon
+Lima
+Lima Peru
+Lima, Peru
+Lisboa
+Liverpool
+Lleida
+London
+London, UK
+Londres
+Los Angeles, CA
+Lugo
+Macapa
+Macapa, AP
+Madrid
+Madrid, España
+Madrid, Spain
+Malaga
+malaysia
+San Fernando, Cádiz, España
+Managua, Nicaragua
+Manaus
+Manaus, AM
+Manchester
+Mar del Plata
+Maracaibo
+Maracaibo, Venezuela
+Maracay
+Maracay, Venezuela
+Massachusetts
+Maturin
+Maturin, Venezuela
+Medellin
+Medellin Colombia
+Medellin, Colombia
+Mendoza
+Mendoza, Argentina
+Merida
+Merida yucatan
+Merida, Venezuela
+Merida, Yucatan
+Mexico
+Mexico City
+Mexico DF
+Mexico, DF
+Miami
+Miami, Fl
+Miami, Florida
+Minas Gerais
+Minnesota
+Monterrey
+Monterrey, Mexico
+Monterrey, Nuevo Leon
+Montevideo
+Montevideo, Uruguay
+Murcia
+Murcia, España
+Natal
+Natal, RN
+Natal/RN
+Neuquen
+Jaen
+New York
+New York City
+General Pico, La Pampa
+La Pampa
+General Pico
+New York, NY
+Newcastle
+Nicaragua
+NYC
+Ohio
+Onde o Sol Nasce Primeiro
+Ourense
+Panama
+Panama City
+Panama City, Panama
+Paraguay
+Parana
+Parinas
+Paris
+Paris, France
+Peru
+Philippines
+Poland
+Polonia
+Porto Alegre
+Portugal
+Portugal
+Necochea
+Cali, Colombia
+Macachín, La Pampa
+Mar Del Plata, Buenos Aires
+Puebla
+Puebla, Mexico
+América Latina (ARG)
+Puerto Ordaz
+Andújar, Sevilla
+Puerto Rico
+Queretaro
+Quito
+Quito, Ecuador
+Republica Dominicana
+Rio de Janeiro
+Rio de Janeiro, Brasil
+Rio Grande do Sul
+Roma
+Roma, Italia
+Rosario
+Rosario, Argentina
+Salvador
+Salvador - Bahia
+San Cristobal
+San Francisco
+San Francisco, CA
+San Francisco, CA
+San Jose, Costa Rica
+San Juan, PR
+San Juan, Puerto Rico
+San Luis Potosi
+San Salvador
+San Salvador, El Salvador
+Santa Cruz de Tenerife
+Santiago de Compostela
+Santiago del Estero
+Santiago del Estero, Argentina
+Santiago, Republica Dominicana
+Sao Paulo Brasil
+Sao Paulo, Brasil
+Sao Paulo, Brazil
+Sao Paulo, SP
+Scotland
+Seattle
+Seattle, WA
+Segovia
+Sevilla
+Singapore
+Salamanca
+Sorocaba
+SP
+Spain
+Tegucigalpa, Honduras
+Tejas
+Tenerife
+Texas
+Thailand
+Tigre
+Tijuana
+Tijuana
+Toledo
+Toledo, España
+Toronto
+Toronto, Canada
+Tucuman
+Tuxtla Gutierrez, Chiapas
+nashville tennessee
+UK
+United Kingdom
+United States
+United States of America
+Uruguay
+USA
+Valencia
+valencia venezuela
+Valencia, España
+Valencia, Venezuela
+Valladolid
+Valladolid, España
+Valdepeñas
+Venezuela
+Veracruz
+Viedma
+Viedma, Argentina
+salt lake city
+Vigo
+Vigo, España
+Pujato/Rosario, Argentina
+Pujato, Argentina
+Villa Urquiza, Capital Federal
+Washington
+Washington, DC
+Zaragoza
+Zaragoza, España
+Quilmes
+Macondo
+Salvador, BA
+Pereira
+Neuquen, Argentina
+Comodoro Rivadavia
+Oviedo
+Mexico, Distrito Federal
+Austin, TX
+San Antonio, TX
+Palma de Mallorca
+Almería
+Sevilla, España
+Pamplona
+Andalucía
+Santander
+Elche
+Bogotá D.C.
+Campeche, México
+Las Palmas de Gran Canaria
+Oaxaca
+Euskal Herria
+Cáceres
+Hermosillo, Sonora
+Mallorca
+Valledupar
+Sao Paulo
+Cuencia
+Cancun Quintana Roo
+Ourente
+Galiza
+Santa Cruz de Tenerife
+Santa Fe
+Jerez de la Frontera
+Veracruz, México
+Villahermosa, Tabasco
+USA
+Bahía Blanca
+Oaxaca, México
+Ciudad Real
+Querétaro, México
+Tarragona
+Madriz
+Cantabria
+RD
+Valencia, Spain
+Gran Canaria
+La Paz, Bolivia
+Marbella
+Málaga, España
+Xalapa
+Santa Fe, Argentina
+Manizales
+Santo Domingo, Rep. Dom.
+Guatemala City
+Extremadarua
+Hermosillo
+Vitoria-Gasteiz
+Tunja
+Olavarria
+Zamora
+Bucaramanga, Colombia
+CABA
+Corriente
+Xalapa, Veracruz
+Corrientes, Argentina
+Melilla
+Algéciras
+Valledupar
+Ecuador-Guayaquil
+United States, Nebraska
+Stalingrado
+Cydonia
+Culiacan, Sinaloa
+San Lorenzo
+Distrito Federal, México
+C.A.B.A.
+Monterrey, Nuevo León, México
+Paisos Catalans
+Puerto Ordaz, Venezuela
+Málaga, Spain
+Santa Marta
+Castellón
+Quetzaltenango
+United States, Alabama
+United States, Alaska
+United States, Arizona
+United States, Arkansas
+United States, California
+United States, Colorado
+United States, Connecticut
+United States, Delaware
+United States, Florida
+United States, Georgia
+United States, Hawaii
+United States, Idaho
+United States, Illinois
+United States, Indiana
+United States, Iowa
+United States, Kansas
+United States, Kentucky
+United States, Maine
+United States, Maryland
+United States, Massachusetts
+United States, Michigan
+United States, Minnesota
+United States, Mississippi
+United States, Missouri
+United States, Montana
+United States, Nevada
+United States, New Hampshire
+United States, New Jersey
+United States, New Mexico
+United States, New York
+United States, North Carolina
+United States, North Dakota
+United States, Ohio
+United States, Oklahoma
+United States, Oregon
+United States, Pennsylvania
+United States, Rhode Island
+United States, South Carolina
+United States, South Dakota
+United States, Tennessee
+United States, Texas
+United States, Utah
+United States, Vermont
+United States, Virginia
+United States, Washington
+United States, West Virginia
+United States, Wisconsin
+United States, Wyoming
+Alicante (Spain)
+Alicante, Spain
+Bilbao, Spain
+Córdoba, Spain
+España - Spain
+España / Spain
+España/Spain
+Galicia, Spain
+Granada, Spain
+Huelva, Spain
+León, Spain
+Murcia (Spain)
+Murcia, Spain
+Salamanca, Spain
+Sevilla, Spain
+Seville, Spain
+Spain, Madrid
+Toledo, Spain
+Valladolid, Spain
+Zaragoza (Spain)
+Zaragoza, Spain
+A Coruña, España
+A Coruña, Galicia, España
+Álava / Araba España
+Alicante / Alacant España
+Almeria, España
+Almería, España
+Andalucía, España
+Asturias España
+Asturias, España
+Badajoz, España
+Barcelona, Catalunya, España
+Bilbao, España
+Burgos España
+Burgos, España
+Cáceres, España
+Canarias, España
+Cantabria, España
+Cartagena, España
+Cordoba, España
+Córdoba España
+Córdoba (España)
+Córdoba, España
+España - Madrid
+España, Madrid
+España, Sevilla
+España - Spain
+España / Spain
+España/Spain
+Extremadura, España
+Galicia, España
+Gerona / Girona España
+Granada España
+Granada (España)
+Granada, España
+Granada, España.
+Guadalajara (España)
+Guadalajara, España
+Jaén, España
+La Coruña / A Coruña España
+León (España)
+León, España
+Logroño, La Rioja, España
+Mediaset España
+Palma de Mallorca, España
+Pamplona, España
+Reino de España
+Salamanca, España
+Santander, España
+Sevilla, Andalucía, España
+Tenerife España
+Tenerife, España
+Teruel España
+Valencia / València España
+Zamora, España
+Acapulco, México
+Aguascalientes, México
+Cancún, México
+Cd. de México
+Chiapas, México
+Chiapas, México.
+Chihuahua, México
+Ciudad de México, México
+Coahuila, México
+Cohauila, México
+Colima, México
+Cuernavaca, México
+Cuernavaca, Morelos, México
+D.F. México
+DF, México
+Durango, México
+Guadalajara, Jalisco, México
+Guadalajara, Jalisco, México.
+Guanajuato, México
+Guerrero, México
+Hermosillo, Sonora, México
+Hermosillo, Sonora, México.
+Hidalgo, México
+Jalisco, México
+Mérida, México
+Mérida Yucatán México
+Mérida, Yucatán, México
+Mérida, Yucatán, México.
+México D. F.
+México, D. F.
+Monterrey, N.L. México
+Morelia, Michoacán, México
+Morelos, México
+Puebla, Puebla, México
+Puebla, Pue. México
+Saltillo, México
+San Luis Potosí, México
+Sinaloa, México
+Sonora, México
+Tabasco, México
+Tabasco, México.
+Tamaulipas, México
+Tampico, México
+Tlaxcala, México
+Toluca, Estado de México
+Toluca, México
+Villahermosa, Tabasco, México
+Xalapa, Veracruz, México
+Yucatán, México
+Zacatecas, México
+Zapopan, Jalisco, México
+Aguascalientes, Mexico
+Cancun, Mexico
+Chiapas, Mexico
+Chiapas, Mexico.
+Chihuahua, Mexico
+Guadalajara, Jalisco, Mexico
+Hermosillo, Sonora, Mexico
+Jalisco, Mexico
+Merida, Yucatan, Mexico
+Mexico City, Mexico
+Mexico, D. F.
+San Luis Potosi, Mexico
+Sonora, Mexico
+Tabasco Mexico
+Tabasco, Mexico
+Tamaulipas, Mexico
+Tijuana, Mexico
+United States, New Mexico
+USA, New Mexico
+Baja California
+Los Angeles, California
+San Francisco, California
+Tijuana, Baja California
+United States, California
+USA, California
+Argentina, Mendoza
+Bahia Blanca, Argentina
+Bahía Blanca, Argentina
+Bs As Argentina
+Bs As, Argentina
+Bs.As Argentina
+CABA, Argentina
+Capital Federal, Argentina
+Catamarca - Argentina
+Catamarca-Argentina
+Catamarca, Argentina
+Formosa, Argentina
+La Rioja - Argentina
+La Rioja, Argentina
+Mar del Plata - Argentina
+Mar del Plata, Argentina
+Misiones, Argentina
+Paraná, Entre Ríos, Argentina
+Patagonia Argentina
+Pilar, Buenos Aires, Argentina
+Posadas, Misiones, Argentina
+República Argentina
+Resistencia, Chaco, Argentina
+Rosario - Santa Fe - Argentina
+Rosario, Santa Fe, Argentina
+Salta Argentina
+Salta - Argentina
+Salta-Argentina
+Salta, Argentina
+San Juan Argentina
+San Juan - Argentina
+San Juan-Argentina
+San Juan, Argentina
+San Luis Argentina
+San Luis - Argentina
+San Luis, Argentina
+Tandil, Argentina
+Tigre, Buenos Aires, Argentina
+Santiago de Guayaquil
+Santiago de los Caballeros
+Santiago, Dominican Republic
+Santiago, RD
+Santiago, Rep. Dom.
+Santiago de Cali
+Santiago de Cali, Colombia
+Santiago Bernabeu
+Santiago Bernabéu
+Alcazar de San Juan
+Alcázar de San Juan
+Donostia-San Sebastián
+El Puerto de Santa Maria
+El Puerto de Santa María
+El Salvador, San Salvador
+Rosario, Santa Fe
+San Antonio de los Altos
+San Antonio de Los Altos
+San Carlos de Bariloche
+San Cristobal - Venezuela
+San Cristobal, Venezuela
+San Cristóbal - Venezuela
+San Cristóbal, Venezuela
+San Diego
+San Diego, CA
+San Fernando (Cádiz)
+San Fernando, Cádiz
+San Fernando de Apure
+San Francisco de Campeche
+San Isidro
+San Jose
+San José
+San Juan de los Morros
+San Justo
+San Lorenzo - Paraguay
+San Lorenzo-Paraguay
+San Lorenzo, Paraguay
+Sanlúcar de Barrameda
+San Luis
+San Martin
+San Martin de los Andes
+San Miguel de Allende
+San Miguel de Tucuman
+San Miguel de Tucumán
+San Miguel, El Salvador
+San Pedro Sula
+San Pedro Sula, Honduras
+San Pedro Sula, Honduras.
+San Rafael, Mendoza
+San Salvador de Jujuy
+San Sebastian
+San Sebastián
+Santa Ana
+Santa Ana, El Salvador
+Santa Catarina
+Santa Coloma de Gramenet
+Santa Cruz Bolivia
+Santa Cruz - Bolivia
+Santa Cruz, Bolivia
+Santa Cruz de la Sierra
+Santa Marta - Colombia
+Santa Marta, Colombia
+Santander, Cantabria
+Santa Rosa
+Santa Rosa La Pampa
+Santa Rosa, La Pampa
+Santa Tecla
+Santa Tecla, El Salvador
+Sant Boi de Llobregat
+Sant Cugat del Vallès
+El Prat de Llobregat
+El Puerto de Santa Maria
+El Puerto de Santa María
+El Salvador, San Salvador
+El Calafate
+Elche (Alicante)
+Elche, Alicante
+Elda
+El Hatillo
+Alemania
+Barcelona, Catalonia
+Catalonia
+Barquisimeto-Lara
+Castilla-La Mancha
+La Ceiba, Honduras
+La Chorrera
+La Coruña
+La Habana
+La Habana, Cuba
+La La Land
+La Línea de la Concepción
+La luna
+La Luna
+Lambare
+Lambare - Paraguay
+Lambaré - Paraguay
+Lanus
+Lanús
+Lanzarote
+La Pampa
+La Patria Grande
+La Paz
+La Plata, Buenos Aires
+Lara
+Lara - Venezuela
+Lara-Venezuela
+La Rioja
+La Romana
+Las Palmas
+Las Palmas de G.C.
+Las Rozas de Madrid
+Logroño (La Rioja)
+Logroño, La Rioja
+Nuevo Laredo
+Puerto La Cruz
+Puerto La Cruz, Venezuela
+Trenque Lauquen
+Basque Country
+Bilbo, Euskal Herria
+Euskadi
+Caseros
+Castelar
+Castelldefels
+Castellón de la Plana
+Castilla
+Castilla-La Mancha
+Castilla y León
+Canary Islands
+Isla del Encanto
+Isla de Margarita
+Isla de Margarita - Venezuela
+Isla de Margarita, Venezuela
+Islas Baleares
+Tenerife, Islas Canarias
+USA, Rhode Island
+Puerto Rico, USA
+USA, Alabama
+USA, Alaska
+USA, Arizona
+USA, Arkansas
+USA, Colorado
+USA, Connecticut
+USA, Delaware
+USA, District of Columbia
+USA, Florida
+USA, Georgia
+USA, Hawaii
+USA, Idaho
+USA, Illinois
+USA, Indiana
+USA, Iowa
+USA, Kansas
+USA, Kentucky
+USA, Louisiana
+USA, Maine
+USA, Maryland
+USA, Massachusetts
+USA, Michigan
+USA, Minnesota
+USA, Mississippi
+USA, Missouri
+USA, Montana
+USA, Nebraska
+USA, Nevada
+USA, New Hampshire
+USA, New Jersey
+USA, New York
+USA, North Carolina
+USA, North Dakota
+USA, Ohio
+USA, Oklahoma
+USA, Oregon
+USA, Pennsylvania
+USA, Rhode Island
+USA, South Dakota
+USA, Tennessee
+USA, Texas
+USA, Utah
+USA, Vermont
+USA, Virginia
+USA, Washington
+USA, West Virginia
+USA, Wisconsin
+USA, Wyoming
+NY
+
+Arequipa - Perú
+Arequipa, Perú
+Chiclayo - Perú
+Chiclayo, Perú
+Pereira Colombia
+Pereira - Colombia
+Pereira, Colombia
+Pereira, Risaralda
+Pergamino
+Perú - Lima
+Trujillo - Perú
+Trujillo, Perú
+Anzoategui, Venezuela
+Anzoátegui - Venezuela
+Anzoátegui, Venezuela
+Aragua - Venezuela
+Aragua-Venezuela
+Aragua, Venezuela
+Barcelona, Venezuela
+Barinas Venezuela
+Barinas - Venezuela
+Barinas-Venezuela
+Barinas, Venezuela
+Cabimas, Venezuela
+Carabobo - Venezuela
+Carabobo, Venezuela
+Ciudad Guayana, Venezuela
+Cumaná, Venezuela
+El Vendrell
+Isla de Margarita - Venezuela
+Isla de Margarita, Venezuela
+Lara - Venezuela
+Lara-Venezuela
+Los Teques, Venezuela
+Maracaibo, Zulia, Venezuela
+Miranda, Venezuela
+Puerto La Cruz, Venezuela
+Rep. Bolivariana de Venezuela
+San Cristobal - Venezuela
+San Cristobal, Venezuela
+San Cristóbal - Venezuela
+San Cristóbal, Venezuela
+Táchira - Venezuela
+Trujillo - Venezuela
+Venado Tuerto
+Venezuela - Caracas
+Venezuela-Caracas
+Venezuela, Caracas
+Venezuela - Maracaibo
+Venezuela-Maracaibo
+Venezuela - Zulia
+Venus
+Zulia - Venezuela
+Zulia-Venezuela
+Zulia, Venezuela
+Ambato - Ecuador
+Ambato-Ecuador
+Cuenca Ecuador
+Cuenca - Ecuador
+Cuenca-Ecuador
+Cuenca, Ecuador
+Ecija
+Gye - Ecuador
+Gye-Ecuador
+Gye, Ecuador
+Loja - Ecuador
+Loja-Ecuador
+Loja, Ecuador
+Machala - Ecuador
+Machala-Ecuador
+Manta - Ecuador
+Manta-Ecuador
+Manta, Ecuador
+Cuenca
+Bolivar
+Ciudad Bolivar
+Cochabamba - Bolivia
+Cochabamba, Bolivia
+Rep. Bolivariana de Venezuela
+Santa Cruz Bolivia
+Santa Cruz - Bolivia
+Santa Cruz, Bolivia
+Arg
+Arganda del Rey
+Estados Unidos Mexicanos
+Mex
+Mex DF
+Mex, Distrito Federal
+Mexicali
+Santiago, RD
+Santo Domingo RD
+Santo Domingo, RD
+Rep. Bolivariana de Venezuela
+Rep Dom
+Rep.Dom
+Rep. Dom
+Rep. Dom.
+Rep.Dom.
+Rep.Dominicana
+Rep. Dominicana
+República de Panamá
+Santiago, Dominican Republic
+Santiago, Rep. Dom.
+Santo Domingo, Rep.Dom
+Santo Domingo, Rep. Dominicana
+
+Canada, Airdrie
+Canada, Barrie
+Canada, Calgary
+Canada, Charlottetown
+Canada, Edmonton
+Canada, Fredericton
+Canada, Grande Prairie
+Canada, Greater Sudbury
+Canada, Halifax
+Canada, Hamilton
+Canada, Iqaluit
+Canada, Lethbridge
+Canada, Markham
+Canada, Medicine Hat
+Canada, Mississauga
+Canada, Moncton
+Canada, Montreal
+Canada, Ottawa
+Canada, Quebec City
+Canada, Red Deer
+Canada, Regina
+Canada, Richmond
+Canada, Richmond Hill
+Canada, Sault Ste. Marie
+Canada, St. Albert
+Canada, St. John&#39;s
+Canada, Thunder Bay
+Canada, Toronto
+Canada, Vancouver
+Canada, Vaughan
+Canada, Victoria
+Canada, Whitehorse
+Canada, Winnipeg
+Canada, Yellowknife
+Montreal, Canada
+Logroño
+Chihuaha
+Ceuta
+Benidorm
+Navarra
+Terrassa
+Talavera de la Reina
+Europa
+Quintana Roo
+BCN
+Fuenlabrada
+MX
+Tegucigalpa
+Salta
+Villavicencio
+Capiatá - Paraguay
+Carmen de Patagones
+Ciudad del Este - Paraguay
+Ciudad de Panamá, Panamá
+Coronel Oviedo - Paraguay
+Distrito 12, Panem
+Encarnacion-Paraguay
+Encarnación - Paraguay
+Encarnación, Paraguay
+Los Palacios y Villafranca
+Luque - Paraguay
+Luque-Paraguay
+Luque, Paraguay
+Pachuca
+Pachuca, Hgo.
+Pachuca, Hidalgo
+País Valencià
+Palencia
+Palermo
+Palma
+Palmira
+Pamplona, Navarra
+Panamá, Ciudad de Panamá
+Panama, Panama
+Panamá, Panamá
+Panem
+Paradise
+Paradise city
+Paradise City
+Paradise City
+Parla
+Parla (Madrid)
+Parque Patricios
+Pasto
+Patria Grande
+Pueblo Paleta
+Villa Carlos Paz
+Villarrica - Paraguay
+Villarrica-Paraguay
+Concepción del Uruguay
+Punta del Este, Uruguay
+Salto, Uruguay
+Punta Alta
+Punta del Este, Uruguay
+Punto Fijo
+Sabadell
+Sabadell, Barcelona
+Saladillo
+Salta
+Saltillo
+Saltillo Coahuila
+Saltillo, Coahuila
+Salto, Uruguay
+Santo Domingo, DR
+Santo Domingo Este
+Santo Domingo Norte
+Santo Domingo, R. D.
+Saturno
+Buenos Aires, Capital Federal
+Capital Federal, Buenos Aires
+Fernando de la Mora
+Ferrol
+Buenos Aires, Capital Federal
+Caballito
+Cabimas
+Caguas, PR
+Caguas, Puerto Rico
+Cajamarca
+Callao
+Cambados
+Campana
+Campeche, Campeche
+Camp Nou
+Cancún, Q.Roo
+Capiata
+Capiatá - Paraguay
+Capital
+Capital Federal, Buenos Aires
+Carabanchel
+Carabobo
+Caracas, Vzla
+Caravaca de la Cruz
+Carmen de Patagones
+Carolina, Puerto Rico
+Cartago, Costa Rica
+Catamarca
+Cd. del Carmen, Campeche.
+Ciudad del Carmen, Campeche
+Cordoba Capital
+Córdoba Capital
+Corrientes Capital
+Ejea de los Caballeros
+Jerez de los Caballeros
+Manizales, Caldas
+Mi Casa
+Playa del Carmen
+Playa del Carmen, Quintana Roo
+Puerto Cabello
+Tenerife, Canarias
+Tres Cantos
+Valencia-Carabobo
+Villa Carlos Paz
+Buenos Aires, ARG
+Buenos Aires, Capital Federal
+Capital Federal, Buenos Aires
+Ciudad Mágica de Buenos Aires
+Quilmes, Buenos Aires
+US
+London, England
+Alcalá de Guadaíra
+Alcalá de Henares, Madrid
+Alcobendas
+Alcorcon
+Alcorcón
+Alcorcón, Madrid
+Alcoy
+Mairena del Alcor
+221B Baker Street
+Babilonia
+Balcarce
+Banfield
+Barakaldo
+Barcelona y Madrid
+Bariloche
+Barracas
+Barrancabermeja
+Illes Balears
+Sabadell, Barcelona
+Terrassa (Barcelona)
+Terrassa, Barcelona
+Villa Ballester
+Villafranca de los Barros
+Balcarce
+Illes Balears
+Villa Ballester
+Ciudad de Guatemala
+Ciudad del Betis
+Ciudad del Este
+Ciudad Gótica
+Ciudad Guayana
+Ciudad Ojeda
+Españistan
+Españistán
+Nueva Esparta
+Guaynabo, Puerto Rico
+Ponce, Puerto Rico
+Puebla, Pue
+Puebla, Pue.
+Puebla, Puebla
+Puente Genil
+Puertollano
+Puerto Madryn
+Puerto Plata
+Puerto Real
+Puerto Vallarta
+Loja
+Lomas de Zamora
+London, United Kingdom
+Longchamps
+Lorca
+Lorca (Murcia)
+Los Teques
+Los Toldos
+Vicente Lopez
+PR
+MICHOACAN
+Encarnación
+Endless Road 7058
+Endless Road, 7058
+Ensenada
+Bella Vista
+Cd. Victoria
+Collado Villalba
+Vicente Lopez
+Vigo, Galicia
+Vilagarcía de Arousa
+Vilanova i la Geltrú
+Vila-real
+Villa Devoto
+Villa Gesell
+Villahermosa
+Villahermosa, Tab.
+Villanueva de la Serena
+Villa Regina
+Villavicencio, Meta
+Villena
+Vitoria
+A Coruña, Galicia
+Alajuela, Costa Rica
+Armenia, Colombia
+Bogotá D.C - Colombia
+Bogotá D.C. - Colombia
+Bogotá D.C., Colombia
+Bogotá, D.C., Colombia
+Coahuila
+Coatzacoalcos, Veracruz
+Cochabamba
+Colima
+Collado Villalba
+Colombia, Bogotá
+Comunidad de Madrid
+Comunidad Valenciana
+Comunitat Valenciana
+Concordia
+Cornellà de Llobregat
+Coronel Oviedo
+Coronel Suarez
+Corrientes
+Coruña
+Coslada
+Cucuta - Colombia
+Cucuta, Colombia
+Cúcuta - Colombia
+Cúcuta, Colombia
+Heredia, Costa Rica
+Ibague Colombia
+Manizales, Colombia
+Medellín, Antioquia, Colombia
+Monclova, Coahuila
+Monclova, Coahula.
+Montería - Colombia
+Piedras Negras, Coahuila
+Piedras Negras, Cohauila
+Torreon, Coahuila
+Torreón, Coahuila
+Tunja, Boyacá, Colombia
+Valledupar - Colombia
+Valledupar-Colombia
+Valledupar, Colombia
+Pepperland
+Pehuajo
+Coatzacoalcos, Veracruz
+Orizaba, Veracruz
+Poza Rica, Veracruz
+Veracruz, Ver.
+Veracruz, Veracruz
+Xalapa, Ver
+Xalapa, Ver.
+Antigua Guatemala
+Guadalajara Jal.
+Guadalajara, Jal
+Guadalajara, Jal.
+Gualeguaychu
+Gualeguaychú
+Guanajuato
+Guanare
+Guarenas
+Guarico
+Guate
+Guatelinda
+Guatemala City, Guatemala
+Guatemala, Guatemala
+Guatire
+León, Guanajuato
+Quetzaltenango, Guatemala
+Azuqueca de Henares
+Posadas Misiones
+Posadas - Misiones
+Posadas, Misiones
+Bragado
+Brandsen
+Almagro
+Almansa
+Almendralejo
+Alzira
+Mairena del Aljarafe
+Pozuelo de Alarcón, Madrid
+Alacant
+Dos Hermanas (Sevilla)
+Dos Hermanas, Sevilla
+Sevilla, Andalucía
+Sevilla City
+Seville
+Rome, Italy
+Andorra
+Andújar
+Sevilla, Andalucía
+Pinamar
+Houston, Texas
+Gibraltar
+Gijón, Asturias
+Gipuzkoa
+Asturies
+Avilés, Asturias
+BsAs
+Bs.As
+Gijón, Asturias
+Oviedo (Asturias)
+Oviedo, Asturias
+Cipolletti - Rio Negro
+Entre Rios
+Riobamba
+Rio Cuarto
+Rio Gallegos
+Rio Grande
+Riohacha
+Boadilla del Monte
+Cuernavaca Morelos
+Cuernavaca, Morelos
+Cuernavaca, Morelos.
+Moaña
+Moca
+Molina de Segura
+Monte Grande
+Monteria
+Montería
+Monterrey, MX
+Monterrey NL
+Monterrey N.L
+Monterrey N.L.
+Monterrey, NL
+Monterrey, N.L
+Monterrey, N.L.
+Montilla
+Montreal
+Morelia
+Morelia, Mich.
+Morelia, Michoacán
+Morelos
+Moreno
+Moron
+Morón
+Moscow
+Mostoles
+Motril
+Nueva York
+Nuevo León
+Mazatlán, Sinaloa
+Sinaloa
+Sincelejo
+Sitges
+Upper East Side
+Extremadura
+Chihuahua
+Sonora
+Aguascalientes
+Ibiza
+Toluca
+Cuernavaca
+Getafe
+Hidalgo
+Avellaneda
+Europe
+Tampico
+Acapulco
+Berisso
+Durango
+Menorca
+Ponferrada
+Jalisco
+Fuengirola
+Bruselas
+Zacatecas
+Donostia
+Tandil
+Adrogue
+Aguascalientes
+Anzoategui
+Aragón
+Aragua
+Asgard
+Azogues
+Belgrano
+Berazategui
+Chilangolandia
+Durango
+Durango, Dgo.
+El Tigre
+Envigado
+Fuengirola
+Hidalgo
+Hogwarts
+Hogwarts.
+Hurlingham
+Ibague-Tolima
+Ituzaingo
+La vega
+Leganés
+Leganés, Madrid
+Leningrado
+L'Hospitalet de Llobregat
+Lisboa, Portugal
+Loading...
+Lugano
+managua
+Managua
+Maracay Edo. Aragua
+Margarita
+Masaya, Nicaragua
+Midgard
+Portugalete
+Portuguesa
+Priego de Córdoba
+Región de Murcia
+Segunda estrella a la derecha.
+Sogamoso
+Springfield
+Sto Dgo
+Sto. Dgo.
+Tangamandapio
+Torrelavega
+Un lugar llamado mundo
+Un lugar llamado mundo.
+Vargas
+Vélez-Málaga
+Zaragoza, Aragón
+New York, New York
+Culiacan
+Dallas, TX
+Cieza
+Cieza (Murcia)
+Ushuaia
+Trujillo
+Gallifrey
+Gandia
+Gasteiz
+Jerez
+Amsterdam
+Armenia
+Benavente
+Denia
+Don Benito
+En tu mente
+Florencio Varela
+Fuenlabrada, Madrid
+Fuerteventura
+General Pico
+General Roca
+Lucena
+Plasencia
+Resistencia
+Resistencia - Chaco
+Resistencia-Chaco
+Resistencia, Chaco
+Silent Hill
+Tenochtitlan
+De Madrid al cielo.
+Fuenlabrada, Madrid
+Getafe, Madrid
+Idris
+Idris.
+Móstoles, Madrid
+Rivas Vaciamadrid
+Rivas-Vaciamadrid
+Mercedes
+25 de Mayo
+Boston, MA
+De Madrid al cielo.
+Fuenlabrada, Madrid
+Getafe, Madrid
+Machala
+MAD
+Manhattan
+Manresa
+Manta
+Maracaibo - Zulia
+Maracaibo-Zulia
+Mataderos
+Mataró
+Medellin, Antioquia
+Medellín, Antioquia
+Méjico
+Melmac
+Mercedes
+Merlo
+Metepec
+Miami Beach
+Milan
+Milano
+Miranda
+Móstoles, Madrid
+MTY
+Mystic Falls
+Ramos Mejia
+Boston
+Boston, MA
+coatzacoalcos
+Dos Hermanas
+Formosa
+Mataderos
+Olivos
+Posadas
+Ramos Mejia
+Reynosa
+Tomelloso
+Tres Arroyos
+Westeros
+Gallifrey
+Granollers
+Hell
+Medellin, Antioquia
+Medellín, Antioquia
+Mystic Falls
+Rada Tilly
+Tomelloso
+Trujillo
+Vallecas
+Valledupar - Cesar
+Valledupar, Cesar
+Vallekas
+Winterfell
+Vecindario
+Santiago DC
+Santiago, Compostela
+Santiago de Compostela
+Linares, Jaén
+Jaén
+Jaén, Linares
+Linares, Andalucía
+Santiago DR
+General cabrera
+San Bernardino
+San Bernardino, CA
+San Bernardino, California
+Santo Domingo
+ARGENTINA, concordia
+Lecheria, Anzoátegui
+Martínez, Argentina
+tixiana
+Añatuya, Santiago Del Estero
+Ajaccio
+Chapel Hill, NC
+Xalapa, México
+Marbella, España
+Bluffton, SC
+Argentina, Cordoba
+Córdoba
+La Romana, Rep. Dom.
+Monteria, Cordoba
+Timbuctú
+Tachira
+Santiago, RS

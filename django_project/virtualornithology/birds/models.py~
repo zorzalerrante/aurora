@@ -1,0 +1,271 @@
+from django.db import models
+from auxiliary import parse_twitter_date
+from django.db import transaction
+
+class Keyword(models.Model):
+    name = models.CharField(max_length=255, db_index=True)
+
+    @classmethod
+    @transaction.commit_on_success
+    def retrieve(cls, keyword_set):
+        return map(lambda x: cls.objects.get_or_create(name=x, defaults={'name': x})[0], keyword_set)
+
+
+    @classmethod
+    def bag_of_words(cls, words, update_dictionary=False, min_tweet_count=None, max_tweet_count=None):
+        if not update_dictionary:
+            models = cls.objects.filter(name__in=words)
+            if min_tweet_count is not None:
+                models = models.filter(tweet_count__gte=min_tweet_count)
+            if max_tweet_count is not None:
+                models = models.filter(tweet_count__lte=max_tweet_count)
+        else:
+            models = cls.retrieve(words)
+
+        bow = [(m.pk, words.count(m.name)) for m in models]
+        return dict(bow)
+
+
+    @classmethod
+    def query_tweets(cls, words, exclude_words=None):
+        pks = set(cls.objects.filter(name__in=words).values_list('tweet', flat=True))
+
+        if exclude_words:
+            exclude_pks = set(cls.objects.filter(name__in=exclude_words).values_list('tweet', flat=True))
+        else:
+            exclude_pks = set()
+
+        return Tweet.objects.filter(pk__in=pks.difference(exclude_pks))
+
+
+
+class Url(models.Model):
+    short = models.CharField(max_length=255, default='', db_index=True)
+    url = models.CharField(max_length=255, default='', db_index=True)
+    domain = models.CharField(max_length=255, db_index=True)
+
+
+class User(models.Model):
+    internal_id = models.CharField(unique=True, max_length=100, db_index=True, blank=False)
+    screen_name = models.CharField(max_length=100, db_index=True, default='')
+    name = models.CharField(max_length=100, default='')
+    last_updated = models.DateTimeField(auto_now=True)
+    bio = models.CharField(max_length=255, default='')
+    url = models.CharField(max_length=255, default='')
+    location = models.CharField(max_length=255, default='')
+    statuses_count = models.IntegerField(default=0)
+    listed_count = models.IntegerField(default=0)
+    followers_count = models.IntegerField(default=0)
+    friends_count = models.IntegerField(default=0)
+    created_at = models.DateTimeField(db_index=True, null=True)
+    time_zone = models.CharField(max_length=100, default='')
+    protected = models.BooleanField(default=False)
+    favourites_count = models.IntegerField(default=0)
+    profile_image_url = models.CharField(max_length=255, default='')
+    verified = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False)
+
+    def copy_user(self, u):
+        self.screen_name = u.screen_name.lower().strip()
+        self.name = u.name
+        self.bio = u.bio
+        self.url = u.url
+        self.location = u.location
+        self.statuses_count = u.statuses_count
+        self.listed_count = u.listed_count
+        self.followers_count = u.followers_count
+        self.friends_count = u.friends_count
+
+        self.time_zone = u.time_zone
+        self.protected = u.protected
+        self.favourites_count = u.favourites_count
+        self.profile_image_url = u.profile_image_url
+
+        self.verified = u.verified
+
+    def copy_json(self, u):
+        self.internal_id = u['id_str']
+        self.name = u.get('name', '')
+        self.verified = bool(u.get('verified', False))
+        self.screen_name = u['screen_name'].lower().strip()
+        self.created_at = parse_twitter_date(u['created_at'])
+        self.location = u.get('location', '')
+
+        self.listed_count = int(u.get('listed_count', 0))
+        self.followers_count = int(u.get('followers_count', 0))
+        self.friends_count = int(u.get('friends_count', 0))
+        self.favourites_count = int(u.get('favourites_count', 0))
+        self.statuses_count = int(u.get('statuses_count', 0))
+
+        self.protected = bool(u.get('protected', 0))
+        self.profile_image_url = u['profile_image_url']
+        self.time_zone = u.get('time_zone', '')
+
+        self.bio = u.get('description', '')
+        self.url = u.get('url', '')
+
+
+    def displayable_dict(self):
+        return {
+            u'id': self.pk,
+            u'id_str': self.pk,
+            u'screen_name': self.screen_name,
+            u'location': self.location,
+            u'profile_image_url': self.profile_image_url,
+            u'created_at': self.created_at.isoformat(),
+            u'full_name': self.name,
+            u'bio': self.bio,
+            u'followers': self.followers_count,
+            u'friends': self.friends_count,
+            u'total_tweet_count': self.statuses_count,
+            u'listed_count': self.listed_count
+        }
+
+
+    @classmethod
+    def import_json(cls, user_json, save_existant=True):
+        try:
+            user = cls.objects.get(internal_id=user_json['id_str'])
+            if save_existant:
+                user.copy_json(user_json)
+                user.save()
+            return user, False
+        except cls.DoesNotExist:
+            user = User()
+            user.copy_json(user_json)
+            try:
+                user.save()
+            except Exception as e:
+                print user_json
+                raise e
+            return user, True
+
+
+class Tweet(models.Model):
+    user  = models.ForeignKey(User, related_name='author', db_index=True)
+    datetime = models.DateTimeField(db_index=True)
+    retweet_count = models.IntegerField(default=0)
+    favourite_count = models.IntegerField(default=0)
+    in_reply_to_user_id = models.CharField(max_length=255)
+    in_reply_to_status_id = models.CharField(max_length=255)
+    source = models.CharField(max_length=255)
+    internal_id = models.CharField(max_length=255, unique=True)
+    text = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    has_geo = models.BooleanField(default=False)
+    latitude = models.FloatField(default=0.0)
+    longitude = models.FloatField(default=0.0)
+    last_updated = models.DateTimeField(auto_now=True)
+    links = models.ManyToManyField(Url)
+    language = models.CharField(max_length=4, default=u'UNK')
+    keywords = models.ManyToManyField(Keyword, db_index=True)
+
+    def update_json(self, s):
+        try:
+            self.favourite_count = int(s['favourites_count'])
+        except KeyError:
+            self.favourite_count = 0
+        except ValueError:
+            self.favourite_count = 101
+
+        try:
+            self.retweet_count = int(s['retweet_count'])
+        except KeyError:
+            self.retweet_count = 0
+        except ValueError:
+            self.retweet_count = 101
+
+
+    def copy_json(self, s, user=None):
+        #self.datetime = datetime.datetime(*(time.strptime(s['created_at'], '%a %b %d %H:%M:%S +0000 %Y')[0:6]))
+        self.datetime = parse_twitter_date(s['created_at'])
+
+        #TODO: update this to the new format in API 1.1
+        try:
+            geo_data = s['geo']
+
+            if geo_data and geo_data['type'] == 'Point':
+                self.latitude, self.longitude = geo_data['coordinates']
+                self.has_geo = True
+        except KeyError:
+            self.has_geo = False
+            self.geo_latitude = 0.0
+            self.geo_longitude = 0.0
+
+        if user:
+            self.user = user
+        else:
+            self.user_id = s['user']['__pk__']
+
+        try:
+            self.favourite_count = int(s['favourites_count'])
+        except KeyError:
+            self.favourite_count = 0
+        except ValueError:
+            self.favourite_count = 101
+
+        try:
+            self.retweet_count = int(s['retweet_count'])
+        except KeyError:
+            self.retweet_count = 0
+        except ValueError:
+            self.retweet_count = 101
+
+        self.internal_id = s['id_str']
+        self.source = s['source']
+
+        self.text = s['text']
+
+        self.in_reply_to_user_id =  s.get('in_reply_to_user_id', '')
+        self.in_reply_to_status_id = s.get('in_reply_to_status_id', '')
+
+        self.language = s.get('lang', u'UNK')
+
+
+    def displayable_dict(self):
+        return {
+            'user': self.user.displayable_dict(),
+            'tweet': {
+                'id': self.pk,
+                'id_str': self.pk,
+                'text': self.text,
+                'created_at': self.datetime.isoformat(),
+                'internal_id': self.internal_id,
+            }
+        }
+
+    @classmethod
+    def import_json(cls, tweet_json, user=None, save_existant=False, save_existant_user=False):
+        try:
+            status = Tweet.objects.get(internal_id=tweet_json['id_str'])
+            if save_existant:
+                status.update_json(tweet_json)
+                status.save()
+
+            return status, False
+        except Tweet.DoesNotExist:
+            status = Tweet()
+            if not user:
+                user = User.import_json(tweet_json['user'], save_existant=save_existant_user)
+
+            status.copy_json(tweet_json, user)
+            try:
+                status.save()
+            except Exception as e:
+                print tweet_json
+                raise e
+
+            return status, True
+
+
+class FollowRelation(models.Model):
+    source = models.ForeignKey(User, related_name='source_user', db_index=True)
+    target = models.ForeignKey(User, related_name='target_user', db_index=True)
+
+
+class ReTweet(models.Model):
+    user = models.ForeignKey(User, related_name='retweeting_user', db_index=True)
+    tweet_instance = models.ForeignKey(Tweet, related_name='rt_instance_tweet')
+    source_tweet = models.ForeignKey(Tweet, related_name='source_tweet', db_index=True)
+    datetime = models.DateTimeField(db_index=True)
+

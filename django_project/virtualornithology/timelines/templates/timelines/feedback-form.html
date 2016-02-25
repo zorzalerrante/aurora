@@ -1,0 +1,68 @@
+<div id="feedback-form-modal" class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">¡Gracias por visitar La Aurora Twittera!</h4>
+      </div>
+      <div class="modal-body">
+            <form id="feedback-form" role="form">
+            {% for field in feedback_form %}
+                <div class="form-group">
+                    <label class="control-label"><p>{{ field.label }}</p></label>
+                    {% if field.help_text %}
+                        <p class="help-block"><small>{{ field.help_text }}</small></p>
+                    {% endif %}
+                    {{ field }}
+                </div>
+            {% endfor %}
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button id="feedback-form-button" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-comment"></span> Enviar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+$().ready(function() {
+    $('#feedback-form-button').click(function() {
+        require(['d3'], function(d3) {
+            var xhr = d3.xhr('{%  url 'timelines:timeline-feedback' %}');
+            var cookie_value = get_cookie('csrftoken');
+            if (cookie_value == null) {
+                console.log('cookies disabled!');
+                return;
+            }
+
+            xhr.header("X-CSRFToken", get_cookie('csrftoken'));
+            xhr.header("Content-type", "application/x-www-form-urlencoded")
+
+            var post_data = $('#feedback-form').serialize();
+
+            console.log('post_data', post_data);
+
+            xhr.post(post_data, function(error, response) {
+                console.log(error);
+                console.log(response);
+                if (response.status == 200) {
+                    console.log('user form sent!');
+                    $('#feedback-form-modal').modal('hide');
+                    $('#feedback-form-modal').remove();
+                    $('div.modal-backdrop').remove();
+                    $('#fb-form-li').remove();
+
+                    require(['pnotify'], function(PNotify) {
+                        $(function(){
+                            new PNotify({
+                                title: '¡Gracias!',
+                                text: '<p>Gracias por enviarnos tu feedback. Lo usaremos para mejorar la aplicación.</p>',
+                                type: 'info',
+                            });
+                        });
+                    });
+                }
+            });
+        });
+    });
+});
+</script>

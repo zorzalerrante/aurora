@@ -1,0 +1,76 @@
+<div id="user-form-modal" class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">¡Bienvenido(a) a la Aurora Twittera!</h4>
+      </div>
+      <div class="modal-body">
+            <div class="alert alert-warning">
+            <p>Estamos realizando un estudio sobre el uso de esta herramienta. <strong>Tus datos no serán compartidos con terceros</strong>. Este formulario solamente aparece
+            la primera vez que nos visitas.</p>
+            </div>
+            <form id="user-form">
+            {% for field in user_form %}
+                <div class="form-group">
+                    <label class="control-label">
+                        <p>{{ field.label }}</p>
+                    </label>
+                    {% if field.help_text %}
+                        <p class="help-block"><small>{{ field.help_text }}</small></p>
+                    {% endif %}
+                    {{ field }}
+                </div>
+            {% endfor %}
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button id="user-form-button" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span> Enviar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+$().ready(function() {
+    $('#user-form-modal').modal({keyboard: false, show: true, backdrop: 'static'});
+    $('#user-form-button').click(function() {
+        require(['d3'], function(d3) {
+            var xhr = d3.xhr('{%  url 'timelines:timeline-user-form' %}');
+            var cookie_value = get_cookie('csrftoken');
+            if (cookie_value == null) {
+                console.log('cookies disabled!');
+                return;
+            }
+
+            xhr.header("X-CSRFToken", get_cookie('csrftoken'));
+            xhr.header("Content-type", "application/x-www-form-urlencoded")
+
+            var post_data = $('#user-form').serialize();
+            //'user_events=' + encodeURIComponent(JSON.stringify(user_events));
+
+            console.log('post_data', post_data);
+
+            xhr.post(post_data, function(error, response) {
+                console.log(error);
+                console.log(response);
+                if (response.status == 200) {
+                    console.log('user form sent!');
+                    $('#user-form-modal').modal('hide');
+                    $('#user-form-modal').remove();
+                    $('div.modal-backdrop').remove();
+                    {% include "timelines/notifications.js" %}
+                } else {
+                    require(['pnotify'], function(PNotify) {
+                        $(function(){
+                            new PNotify({
+                                title: 'Error',
+                                text: '<p>Ha ocurrido un problema. Por favor intenta de nuevo.</p>',
+                                type: 'error',
+                            });
+                        });
+                    });
+                }
+            });
+        });
+    });
+});
+</script>

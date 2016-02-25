@@ -1,0 +1,228 @@
+# Django settings for baseproject project.
+import os
+import sys
+
+# only use debug in server mode
+DEBUG = len(sys.argv) >= 2 and sys.argv[1] == 'runserver'
+DEBUG = False
+TEMPLATE_DEBUG = DEBUG
+
+ADMINS = (
+    # ('Your Name', 'your_email@example.com'),
+)
+
+MANAGERS = ADMINS
+
+
+DATABASES = {}
+
+DATABASES['default'] = {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'virtual_ornithology',
+    'USER': 'egraells',
+    'PASSWORD': 'egraells',
+    'HOST': '',
+    'PORT': '',
+}
+
+# Local time zone for this installation. Choices can be found here:
+# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
+# although not all choices may be available on all operating systems.
+# On Unix systems, a value of None will cause Django to use the same
+# timezone as the operating system.
+# If running in a Windows environment this must be set to the same as your
+# system time zone.
+TIME_ZONE = 'America/Chicago'
+
+# Language code for this installation. All choices can be found here:
+# http://www.i18nguy.com/unicode/language-identifiers.html
+LANGUAGE_CODE = 'en-us'
+
+SITE_ID = 1
+
+# If you set this to False, Django will make some optimizations so as not
+# to load the internationalization machinery.
+USE_I18N = True
+
+# If you set this to False, Django will not format dates, numbers and
+# calendars according to the current locale
+USE_L10N = True
+
+USE_TZ = True
+
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+# Example: "/home/media/media.lawrence.com/media/"
+MEDIA_ROOT = ''
+
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# trailing slash.
+# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
+MEDIA_URL = ''
+
+# Absolute path to the directory static files should be collected to.
+# Don't put anything in this directory yourself; store your static files
+# in apps' "static/" subdirectories and in STATICFILES_DIRS.
+# Example: "/home/media/media.lawrence.com/static/"
+STATIC_ROOT = ''
+
+# URL prefix for static files.
+# Example: "http://media.lawrence.com/static/"
+STATIC_URL = 'http://localhost:8001/'
+
+# URL prefix for admin static files -- CSS, JavaScript and images.
+# Make sure to use a trailing slash.
+# Examples: "http://foo.com/static/admin/", "/static/admin/".
+ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = 'ORNITHOLOGY_SECRET_KEY'
+
+# List of callables that know how to import templates from various sources.
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+#     'django.template.loaders.eggs.Loader',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+    #"virtualornithology.evaluation.context.evaluation_context"
+    )
+
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+)
+
+ROOT_URLCONF = 'virtualornithology.urls'
+
+TEMPLATE_DIRS = (
+    os.path.dirname(os.path.realpath(__file__)) + '/templates'
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+)
+
+INSTALLED_APPS = (
+    'virtualornithology.birds',
+    'virtualornithology.places',
+    'virtualornithology.analysis',
+    'virtualornithology.evaluation',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    #'django.contrib.sites',
+    #'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # Uncomment the next line to enable the admin:
+    #'django.contrib.admin',
+    # Uncomment the next line to enable admin documentation:
+    # 'django.contrib.admindocs',
+)
+
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error.
+# See http://docs.djangoproject.com/en/dev/topics/logging for
+# more details on how to customize your logging configuration.
+LOGGING ={
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+    'filters': {}
+}
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+
+ALLOWED_HOSTS = ['*']
+# Project-specific config
+
+if sys.platform.startswith('linux'):
+    DATA_FOLDER = '/home/egraells'
+else:
+    DATA_FOLDER = '/Users/egraells'
+
+ORNITHOLOGY_PATH = DATA_FOLDER + '/phd/apps/virtualornithology'
+
+
+main_path = os.path.dirname(os.path.realpath(__file__))
+
+DATA_FOLDER = '/home/egraells/twitter-data/stream'
+
+# @carnby
+TWITTER_USER_KEYS = {
+    'consumer_key': 'k7en32zXZQKuDtUZ8gr6g',
+    'consumer_secret': 'VPVdlOw2IkUWL2V1wHBeGwEKKkR7aZDRwiqSzR05s',
+    'access_token_key': '18855622-QPEUSJcbIFEWKrxEKcqr7OpXrOJfKmZQok0USIYbA',
+    'access_token_secret': 'P3Vkw8okLD81af3koyejDAro1NWQtYfcJesxbfSiolM'
+}
+
+# @todocl
+TWITTER_USER_KEYS = {
+    'consumer_key': 'k7en32zXZQKuDtUZ8gr6g',
+    'consumer_secret': 'VPVdlOw2IkUWL2V1wHBeGwEKKkR7aZDRwiqSzR05s',
+    'access_token_key': '171913028-hUJyz7fasHqP7AyLeLn1V39oeu9Sf85JnHkkfdPw',
+    'access_token_secret': 'emn4gTumf537nDTUzkeDjIt0lWExhn1cptph7PFxQHEXr'
+}
+
+
+TWITTER_SEARCH_KEYWORDS_FILE =  '/home/egraells/twitter-data/keywords.txt'
+TWITTER_SEARCH_LOCATION_BBOX = [-73.655740,-37.944243,-72.090433,-34.879482]
+TWITTER_SEARCH_WOEID = None #23424782
+
+TWITTER_DISCARD_KEYWORDS = '/home/egraells/twitter-data/discard_keywords.txt'
+TWITTER_DISCARD_LOCATIONS = '/home/egraells/twitter-data/discard_locations.txt'
+TWITTER_ACCEPTED_LANGUAGES = set(['es', 'UNK', 'und'])
+TWITTER_DISCARD_URLS = '/home/egraells/twitter-data/discard_urls.txt'
+
+STREAMING_FILE_PREFIX = 'cuenta_publica_2014'
+STREAMING_SOURCE_ACCOUNT = None #'todocl'
+STREAMING_FOLLOW_ACCOUNTS = None
+
+# every X minutes we should restart the stream (60 seconds * minutes)
+STREAMING_SCRIPT_DURATION = 60 * 5
+
+# we do this in order to avoid missing tweets between executions
+STREAMING_SCRIPT_DURATION = float(STREAMING_SCRIPT_DURATION) + 0.15
+
+# Characterization
+CHARACTERIZATION_USER_STEP = 1000
+CHARACTERIZATION_STATUS_STEP = 3000
+
+# Locations
+MAIN_LOCATION_ID = 1
+LOCATION_DEPTH = 1
+
+# Geolocation using YAHOO!
+#YAHOO_APP_ID = 'aoUoj1vV34HV5E6sdWwOJV8mF7W5InPAD_.0Lg3.M2xVltq1_mS7G_kr9KznbbLEKW3R'
+
+# bit.ly url expansion
+BITLY_TOKEN = '80064aa824fd3daf9d377f5047b011cf121909dc'

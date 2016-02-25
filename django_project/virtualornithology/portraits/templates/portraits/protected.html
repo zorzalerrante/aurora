@@ -1,0 +1,47 @@
+{% extends "portraits/index.html" %}
+
+{% block body_content %}
+<div id="profile"></div>
+
+<div class="alert alert-danger" role="alert"><p><strong>Este perfil es privado.</strong> Solamente <strong>@{{ portrait_screen_name }}</strong> puede acceder a él.</p></div>
+
+{% endblock body_content %}
+
+{% block footer_script %}
+<script>
+/**
+ * ¡Hola!
+ * Gracias por ver mi código. No es muy bonito, pero es lo que hay ;) ¡Saludos!
+ * -- Eduardo, @carnby
+ */
+
+{% include "timelines/require-config.js" %}
+
+require.config({
+    'paths': {
+        'portrait_graph': '{{ STATIC_URL }}vis/matta.portrait',
+        'matta_circlepack': '{{ STATIC_URL }}vis/matta.recommendations',
+        'seedrandom': '{{ STATIC_URL }}libs/seedrandom.min'
+    }
+});
+
+require(['d3', 'portrait_graph', 'matta_circlepack', 'seedrandom', 'matta', 'aurora', 'moment'],
+function(d3, portrait_graph, portrait_recommendations, seedrandom, matta, aurora, moment) {
+    d3.select('#profile').datum(JSON.parse({{ profile_data }}))
+            .html(function (d) {
+                var name = '@' + d.screen_name;
+                if (d.name && d.name != '') {
+                    name += ' <br /><small>' + d.name + '</small>';
+                }
+
+                return '<a target="_blank" class="profile" href="https://twitter.com/intent/user?screen_name=' + d.screen_name + '">' +
+                        '<img class="img img-circle" width="128" height="128" src="' + d.profile_image_url.replace('normal', '400x400') + '">' +
+                        '</a>' +
+                        '<h2>' +
+                        '<a target="_blank" class="profile" href="https://twitter.com/intent/user?screen_name=' + d.screen_name + '">' + name + '</a>' +
+                        '</h2>' +
+                        '<p>' + d.description + '</p>';
+            });
+});
+</script>
+{% endblock footer_script %}

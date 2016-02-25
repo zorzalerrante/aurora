@@ -1,0 +1,85 @@
+{% extends "site/base.html" %}
+
+{% block header %}
+<style>
+/* Non-responsive overrides
+ *
+ * Utilitze the following CSS to disable the responsive-ness of the container,
+ * grid system, and navbar.
+ */
+
+/* Reset the container */
+.container {
+  max-width: none !important;
+  width: 970px;
+}
+
+/* Demonstrate the grids */
+.col-xs-4 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #eee;
+  border: 1px solid #ddd;
+  background-color: rgba(86,61,124,.15);
+  border: 1px solid rgba(86,61,124,.2);
+}
+
+.container .navbar-header,
+.container .navbar-collapse {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+</style>
+<script type="text/javascript" src="{{ STATIC_URL }}libs/polygon.intersection.js"></script>
+{% endblock%}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+<h1>Proyecto: Virtual Portraits</h1> 
+
+<div id="profile-info"></div>    
+
+<div>
+  <div class="panel panel-default">
+    <div class="panel-heading">Nube de Conceptos, Menciones y Hashtags frecuentes y con mayor presencia en el tiempo</div>
+    <div id="keywords" class="panel-body"></div>
+    <div class="panel-footer"><span class="label label-info">Instrucciones</span> Cliquea un concepto o palabra para ver <em>tweets</em> asociados a ella. A la izquierda se desplegar&aacute;n tus tweets y a la derecha los tweets recomendados.</div>
+  </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div id="portrait-tweets" ></div>
+    </div>
+        
+    <div class="col-md-6">
+        <div id="recommended-tweets" ></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}vis/portrait-common.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}vis/portrait-tweets.js"></script>
+<script type="text/javascript">
+
+var portrait = window.portrait;
+
+portrait.initialize(908, 400);
+
+d3.json("/site/assets/portraits/{{ screen_name }}.json", function(error, json) {
+//d3.json("/api/portraits/get/{{ screen_name }}", function(error, json) {
+    console.log(json);
+    portrait.draw_profile(json.fields.user);
+    portrait.init_data(json);
+});
+</script>
+
+
+
+{% endblock %}

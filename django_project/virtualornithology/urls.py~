@@ -1,0 +1,79 @@
+from django.conf.urls import patterns, include, url
+import os
+# Uncomment the next two lines to enable the admin:
+#from django.contrib import admin
+#admin.autodiscover()
+from django.views.generic import TemplateView
+import settings
+#from portraits.classviews import PortraitView
+
+# read this later!
+# https://docs.djangoproject.com/en/dev/topics/http/urls/
+
+# from http://stackoverflow.com/questions/15448150/how-should-template-names-be-set-dynamically-using-class-based-views
+class DynamicTemplateView(TemplateView):
+
+    def get_template_names(self):
+        return ['site/%s.html' % self.kwargs['template']]
+
+
+urlpatterns = patterns('',
+    # Examples:
+    # url(r'^$', 'baseproject.views.home', name='home'),
+    #url(r'^api/users/search', 'birds.views.user_search'),
+    #url(r'^api/users/timeseries/count', 'analysis.views.user_timeseries_counts'),
+    #url(r'^api/users/demographics', 'analysis.views.demographic_userfeatures'),
+    #url(r'^api/statuses/timeseries/count', 'analysis.views.status_timeseries_counts'),
+    #url(r'^api/statuses/timeseries/content', 'birds.views.status_timeseries_content'),
+    #url(r'^api/statuses/geo', 'birds.views.status_geo'),
+
+    #url(r'^api/places/search', 'places.views.place_search'),
+    #url(r'^api/place/(?P<place_id>\d+)/$', 'places.views.place_get'),
+    #url(r'^api/places/(?P<depth>\d+)/$', 'places.views.place_data'),
+
+    #url(r'^api/stats/users/$', 'analysis.views.user_stats_and_distributions'),
+    #url(r'^api/stats/location_interactions/$', 'analysis.views.location_interaction_matrix'),
+    #url(r'^api/stats/location/name/$', 'analysis.views.location_stats_by_name'),
+    #url(r'^api/stats/location/(?P<location_id>\d+)/?$', 'analysis.views.location_stats'),
+    #url(r'^api/stats/participation/$', 'analysis.views.population_participation'),
+    #url(r'^api/stats/keywords/bio/popular/$', 'analysis.views.popular_bio_keywords'),
+
+    #url(r'^api/stats/overview/$', 'birds.views.overview'),
+
+    #url(r'^api/transport/matrix/location$', 'transport.views.location_matrix'),
+
+    #url(r'^api/tweets/random$', 'birds.views.random_tweet'),
+
+    # Portraits
+    #url(r'^api/portraits/ego-network/(?P<user_id>\d+)/$', 'portraits.views.ego_network'),
+
+    # Predictions
+    #url(r'^api/predictions/tweets$', 'evaluation.views.random_bundle'),
+
+
+
+
+
+
+    # Uncomment the admin/doc line below to enable admin documentation:
+    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+
+    # Uncomment the next line to enable the admin:
+    #url(r'^admin/', include(admin.site.urls)),
+
+    # static files
+    #url(r'^static/(?P<path>.*)$', include('django.views.static'), {'document_root': os.path.dirname(os.path.realpath(__file__)) + '/site'}),
+
+    # utils
+    # a visualization of unknown place names
+    #url(r'^utils/common-place-names/$', 'birds.views.place_names'),
+    url(r'^birds/', include('birds.urls', namespace="birds")),
+    #url(r'^evaluation/', include('evaluation.urls', namespace="evaluation")),
+
+
+    # Our site urls
+    #url(r'linspiration.html^$', TemplateView.as_view(template_name="site/linspiration.html")),
+    #url(r'^(?P<template>.+).html$', DynamicTemplateView.as_view()),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'site/login/login.html'}),
+)
+

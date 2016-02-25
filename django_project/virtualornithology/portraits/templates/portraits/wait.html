@@ -1,0 +1,54 @@
+{% extends "portraits/index.html" %}
+
+{% block body_content %}
+<div id="profile" class="row"></div>
+
+<div class="alert alert-warning" role="alert"><p><strong>Estamos construyendo este perfil.</strong> Hacerlo requiere que bajemos datos desde
+Twitter y esto toma unos instantes. Si lo deseas puedes recargar esta página en unos momentos.</p></div>
+
+    {% if not demo_portrait %}
+<div class="alert alert-info" role="alert"><p>Cuando este perfil esté listo, o bien sea actualizado, avisaremos a <strong>@{{ portrait_screen_name }}</strong> en Twitter mediante una mención :)</p></div>
+    {% endif %}
+{% endblock body_content %}
+
+{% block footer_script %}
+<script>
+/**
+ * ¡Hola!
+ * Gracias por ver mi código. No es muy bonito, pero es lo que hay ;) ¡Saludos!
+ * -- Eduardo, @carnby
+ */
+
+{% include "timelines/require-config.js" %}
+
+require.config({
+    'paths': {
+        'portrait_graph': '{{ STATIC_URL }}vis/matta.portrait',
+        'matta_circlepack': '{{ STATIC_URL }}vis/matta.recommendations',
+        'seedrandom': '{{ STATIC_URL }}libs/seedrandom.min'
+    }
+});
+
+require(['d3', 'portrait_graph', 'matta_circlepack', 'seedrandom', 'matta', 'aurora', 'moment'],
+function(d3, portrait_graph, portrait_recommendations, seedrandom, matta, aurora, moment) {
+    // the profile
+    d3.select('#profile').datum(JSON.parse({{ profile_data }}))
+            .html(function (d) {
+                var name = '@' + d.screen_name;
+                if (d.name && d.name != '') {
+                    name += ' <small>' + d.name + '</small>';
+                }
+
+                return '<div class="col-sm-2"><p style="text-align: center;"><a target="_blank" class="profile" href="https://twitter.com/intent/user?screen_name=' + d.screen_name + '">' +
+                        '<img class="img img-user-avatar img-rounded" width="128" height="128" src="' + d.profile_image_url.replace('normal', '200x200') + '" />' +
+                        '</a></p></div>' +
+                        '<div class="col-sm-10"><h2 style="margin-top: 10px; font-weight: bold;">' +
+                        '<a target="_blank" href="https://twitter.com/intent/user?screen_name=' + d.screen_name + '">' + name + '</a>' +
+                        '</h2>' +
+                        '<p style="margin-bottom: 2px;">' + d.description + '</p>' +
+                        '<div id="portrait-meta"><small><strong>Última Actualización</strong>: ' + moment('{{ last_update }}').fromNow() + '.</small></div>' +
+                        '</div>';
+            });
+});
+</script>
+{% endblock footer_script %}

@@ -1,0 +1,13 @@
+{% extends "timelines/timeline-baseline.html" %}
+
+{% block style %}
+    {% include "timelines/timeline-treemap.css" %}
+{% endblock style %}
+
+{% block navbaritems %}
+<li><a id="legend-link" href="#"><span class="glyphicon glyphicon-th-large"></span> Ver/Esconder Leyenda</a></li>
+{% endblock navbaritems %}
+
+{% block render_function %}
+    {% include "timelines/timeline-treemap.js" %}
+{% endblock render_function %}

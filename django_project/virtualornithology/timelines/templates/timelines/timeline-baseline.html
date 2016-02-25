@@ -1,0 +1,244 @@
+{% extends "site/base.html" %}
+
+{% block navbar %}
+{% endblock %}
+
+<style>
+{% block style %}
+    body {
+    height: 100%;
+    overflow: hidden;
+    font-face: Roboto;
+}
+
+#page-content-wrapper div.container-fluid {
+    height: 100%;
+    min-width: 405px;
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    padding: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.footer {
+    padding-top: 0.4em;
+}
+
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+
+#main div.container-fluid {
+    height: 100%;
+    min-width: 700px;
+    min-height: 100%;
+    overflow: hidden;
+}
+
+#timeline {
+    min-height: 500px;
+}
+    {% include "timelines/timeline-treemap.css" %}
+    {% include "timelines/simple-sidebar.css" %}
+{% endblock %}
+</style>
+
+{% block before_navbar %}
+{% include "timelines/about.html" %}
+{% endblock %}
+
+{% block nav_auth %}
+{% endblock %}
+
+{% block navbaritems_left %}
+<li class="hidden-sm hidden-md"><a id="timeline-created-at">{{ created_at }}</a></li>
+<li class="hidden-sm"><a href="#about" data-toggle="modal" data-target="#about-modal"><span class="glyphicon glyphicon-book"></span> ¿Cómo Funciona?</a></li>
+{% endblock navbaritems_left %}
+
+
+{% block sidebar %}
+        <div id="location-filters" class="sidebar-nav list-group">
+            <a id="todocl-logo" href="https://twitter.com/intent/user?screen_name=todocl" class="list-group-item">
+                <img class="img img-rounded" src="{{ STATIC_URL }}assets/avatar_todocl_200x200.png" width="100%" style="margin: auto;" />
+            </a>
+            <a id="back-home" href="{% url 'portraits:portraits-home' %}" class="list-group-item"><span class="glyphicon glyphicon-home"></span> Perfiles Visuales</a>
+            <a id="toggle-all-locations" href="#" class="list-group-item" style="color: white;"><span class="glyphicon glyphicon-th-large"></span> Titulares</a>
+        </div>
+{% endblock %}
+
+{% block content %}
+<div id="tweet-modal" class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div id="timeline" style="position: relative;"></div>
+{% endblock content %}
+
+{% block footer %}
+<!--
+<div class="footer">
+    <div class="container-fluid">
+        <p class="hidden-sm hidden-md pull-right"><small>
+        Por <a href="http://twitter.com/intent/user?screen_name=carnby">@carnby</a> |
+            Nota: no estamos afiliados con Twitter.
+        </small></p>
+        <ul id="location-filters" class="list-inline" title="Puedes usar estos botones para mostrar solamente los tweets de una región particular.">
+            <li><strong><button class="btn btn-default btn-xs disabled"><strong>Usa estos botones para elegir qué ver:</strong></button></strong></li>
+            <li><strong><button id="toggle-all-locations" class="btn btn-info btn-xs">Todas las Regiones</button></strong></li>
+        </ul>
+    </div>
+</div>
+-->
+{% endblock%}
+
+{% block footer_script %}
+<script>
+/**
+ * ¡Hola!
+ * Gracias por ver mi código. No es muy bonito, pero es lo que hay ;) ¡Saludos!
+ * -- Eduardo, @carnby
+ */
+
+{% include "javascript/require-config.js" %}
+
+require(['d3', 'moment', 'underscore', 'aurora'], function(d3, moment, _, aurora) {
+    moment.locale('es');
+    console.log(aurora);
+
+    var spinner = aurora.spinner('timeline');
+
+    {% include "timelines/color-scales.js" %}
+    {% include "timelines/interaction-logging.js" %}
+
+    var categories = d3.map();
+    var location_id_map = d3.map();
+    var location_id = function(location_pk) { return location_id_map.get(location_pk); };
+
+    {% include "timelines/location-filters.js" %}
+
+    // window size
+    var div = null;
+    if (d3.select('#timeline').selectAll('div.aurora').empty()) {
+        div = d3.select("#timeline").append('div').attr('class', 'aurora')
+                .style("position", "relative");
+    } else {
+        div = d3.select('#timeline').select('div.aurora');
+    }
+
+    var timeline_container = div;
+
+    {% include "timelines/window-size.js" %}
+
+    timeline_container.style({
+        "height": (height) + "px"
+    });
+
+    {% include 'timelines/timeline-treemap.js' %}
+    {% include 'timelines/tweet-template.js' %}
+
+    var showing_modal = false;
+    vis_events.on('cell_click.modal', function(d, i) {
+        console.log('click', this, d, i);
+        var tweet = d.content;
+        dispatcher.details.apply(this, [tweet, null]);
+
+        d3.select('#tweet-modal .modal-body')
+            .html('<ul class="detailed-tweet list-unstyled">' + tweet_template(tweet) + '</ul>')
+            .selectAll('.detailed-tweet a')
+            .on('click', function() {
+                console.log('tweet click', this, tweet);
+                dispatcher.click.apply(this, [tweet, d3.select(this).attr('href')]);
+            });
+
+        $('#tweet-modal').modal('show');
+        showing_modal = true;
+        //log_event({'name': 'aurora_cell_click', 'location': d.content.fields.geolocation})
+    });
+
+    vis_events.on('cell_exit.modal', function(d, i) {
+        if (showing_modal) {
+            $('#tweet-modal').modal('hide');
+            showing_modal = false;
+        }
+    });
+
+    filter_dispatcher.on('click.log', function(d) {
+        log_event({'name': 'select_location', 'target': d.pk});
+    });
+
+    filter_dispatcher.on('show_all.log', function() {
+        log_event({'name': 'show_all_locations'});
+    });
+
+    size_dispatcher.on('resize.treemap', function(width, height) {
+        console.log('dispatcher', width, height);
+        d3.entries(treemap).forEach(function(tmap) {
+            tmap.value.size([width, height]);
+        });
+        font_size.range([min_font_size(width), max_font_size(width)]);
+        console.log('resize!', width, height);
+        render();
+    });
+
+    // fight!
+    d3.json("{%  url 'timelines:latest-timeline' %}", function(error, json) {
+        //current_data = json;
+
+        if (json != null) {
+            console.log('data', json);
+            console.log('error', error);
+            timeline_pk = json.pk;
+
+            if (json.hasOwnProperty('created_at')) {
+                d3.select('#timeline-created-at')
+                    .html('<span class="glyphicon glyphicon-time"></span> Fecha de Edición: ' + moment(json.created_at).format('llll'));
+            }
+
+            json.tweets.forEach(function(d) {
+                d.fields['has_media'] = d.fields.hasOwnProperty('media') && d.fields.media != null;
+                if (d.fields.has_media == true) {
+                    d.fields.media.forEach(function(m) {
+                        m.fields.sizes = JSON.parse(m.fields.sizes);
+                        m.fields.aspect_ratio = media_aspect_ratio(m);
+                    });
+                }
+            });
+
+            prepare_categories(json.metadata.locations, json.tweets);
+            current_data = nest_by_location(json.tweets);
+
+            render();
+            dispatcher.loaded(screen);
+
+            bind_twitter_events();
+            init_interaction_logging();
+        } else {
+            aurora.notify('Error', 'Ha ocurrido un error. Por favor recarga la página en unos momentos.', 'error');
+        }
+
+        aurora.notify('Bienvenido al <strong>Timeline Descentralizado</strong>',
+                'Cada 30 minutos generamos un resumen informativo basado en tweets publicados en todo Chile. ' +
+                'Para más información puedes revisar el link "¿Cómo funciona?" en la barra superior.',
+                'info');
+
+        aurora.notify('Nota',
+                'Los tweets están agrupados de acuerdo a la región en la que fueron publicados. Puedes hacer clic en cada recuadro para ver los detalles del tweet.',
+                'success');
+
+        spinner.stop();
+    });
+});
+
+</script>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "site/base.html" %}
+
+{% block header %}
+<style>
+/* Non-responsive overrides
+ *
+ * Utilitze the following CSS to disable the responsive-ness of the container,
+ * grid system, and navbar.
+ */
+
+/* Reset the container */
+.container {
+  max-width: none !important;
+  width: 970px;
+}
+
+/* Demonstrate the grids */
+.col-xs-4 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #eee;
+  border: 1px solid #ddd;
+  background-color: rgba(86,61,124,.15);
+  border: 1px solid rgba(86,61,124,.2);
+}
+
+.container .navbar-header,
+.container .navbar-collapse {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+div.popover {
+    width: 400px;
+    max-width: none;
+}
+</style>
+<script type="text/javascript" src="{{ STATIC_URL }}libs/polygon.intersection.js"></script>
+{% endblock%}
+
+{% block content %}
+<div id="keywords" class="panel-body"></div>
+{% endblock %}
+
+
+{% block footer_script %}
+<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}libs/polygon.intersection.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}vis/portrait-tweets.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}vis/portrait-common.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}vis/portrait-abstract.js"></script>
+
+<script type="text/javascript">
+
+(function() {
+var portrait = window.portrait; 
+
+d3.json("{%  url 'portraits:get-portrait' user.username %}", function(error, json) {
+    console.log(json);
+    window.json_response= json;
+    portrait.draw_profile(json.fields.user);
+    portrait.init_data(json);
+});
+}).call(this);
+
+/*
+    if (false) {
+        background.selectAll('rect.qt').data(rects)
+            .enter()
+            .append('rect')
+            .attr('class', 'qt')
+            .attr('width', function(d) {
+                return d.width;
+            })
+            .attr('height', function(d) {
+                return d.height;
+            })
+            .attr('x', function(d) {
+                return d.x;
+            })
+            .attr('y', function(d) {
+                return d.y;
+            })
+            .attr('fill', function(d) {
+                if (d.inside) {
+                    return 'red';
+                } else {
+                    return 'gray';
+                }
+            })
+            .attr('opacity', 0.1)
+            .attr('stroke', 'gray')
+            .attr('stroke-width', 1);
+    }
+});
+*/
+</script>
+
+
+
+{% endblock %}

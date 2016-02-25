@@ -1,0 +1,170 @@
+from django.template import Context, loader
+from django.http import HttpResponse
+from django import forms
+from urllib2 import unquote
+from django.template.defaultfilters import striptags
+from django.utils.html import urlize
+from django.core import serializers
+from models import *
+import json
+import settings
+import analysis.timeseries
+from django.db.models import Min, Max, Count
+from analysis.forms import UserQueryForm
+from django.shortcuts import render_to_response, render
+from django.template import RequestContext
+from forms import AddNameForm
+from analysis.models import UserFeatures
+from places.models import Location
+
+
+def convert_to_dicts(queryset, single=False):
+    if not single:
+        return json.loads(serializers.serialize("json", queryset))
+    else:
+        result = json.loads(serializers.serialize("json", queryset))
+        if result:
+            return result[0]
+        return None
+
+
+def render_json(request, data, dumped=False):
+    if dumped:
+        code = data
+    else:
+        code = json.dumps(data)
+    return render_to_response('json.html', {'json': code}, context_instance=RequestContext(request), mimetype='application/json')
+
+
+def user_search(request):
+    query = request.GET['query']
+
+    users = User.objects.filter(screen_name__istartswith=query)
+    return render_json(request, serializers.serialize("json", users), dumped=True)
+
+
+def status_geo(request):
+    qs = Tweet.objects.filter(has_geo=True).values('pk', 'author_id', 'geo_latitude', 'geo_longitude')
+    return render_json(request, list(qs))
+
+
+def status_timeseries_counts(request):
+    timedelta = datetime.timedelta(hours=3)
+
+    minutes = pandas.date_range('10/28/2012 15:00', '10/29/2012 03:00', freq='t')
+
+    pairs = zip(minutes[0:-2], minutes[1:])
+
+    ts = [{
+            'count': Tweet.objects.filter(datetime__gte=p[0].to_datetime(), datetime__lt=p[1].to_datetime()).count(),
+            'datetime': (p[0] - timedelta).isoformat()
+        } for p in pairs]
+
+    return render_json(request, ts)
+
+
+def status_timeseries_content(request):
+    timedelta = datetime.timedelta(hours=3)
+    minutes = pandas.date_range('10/28/2012 15:00', '10/28/2012 15:03', freq='t')
+    pairs = zip(minutes[0:-2], minutes[1:])
+    queryset = lambda p: Tweet.objects.filter(datetime__gte=p[0].to_datetime(), datetime__lt=p[1].to_datetime()).select_related()
+
+    ts = [{
+            'tweets': [s.displayable_dict() for s in queryset(p)],
+            'datetime': (p[0] - timedelta).isoformat()
+        } for p in pairs]
+
+    return render_json(request, ts)
+
+
+def user_timeseries_counts(request):
+    ts = []
+    if request.method == 'GET':
+        form = UserForm(request.GET)
+        if form.is_valid():
+            start_date = form.cleaned_data['created_at_start']
+            end_date = form.cleaned_data['created_at_end']
+            print start_date, end_date
+
+            if start_date is None:
+                start_date = User.objects.aggregate(start_date=Min('created_at'))['start_date']
+
+            if end_date is None:
+                end_date = User.objects.aggregate(end_date=Max('created_at'))['end_date']
+
+            ts = analysis.timeseries.build_timeseries(User.objects.exclude(location=''), start_date, end_date, unit='weeks', attribute='created_at')
+            #q = form.cleaned_data['query'].strip() + '*'
+            #hits = query.perform_query(q)
+
+            #results['query'] = form.cleaned_data['query']
+
+            #if hits:
+            #    results['results'].extend(hits)
+
+    return render_json(request, ts)
+
+
+def overview(request):
+    result = {
+        'tweets': Tweet.objects.count(),
+        'users': User.objects.count(),
+        'retweets': ReTweet.objects.count()
+    }
+
+    return render_json(request, result)
+
+
+def random_tweet(request):
+    import random
+
+    tweet_count = Tweet.objects.count()
+    rand_int = random.randint(0, tweet_count)
+    rand_int = 56
+    status = Tweet.objects.select_related().all()[rand_int]
+    tweet = json.loads(serializers.serialize("json", [status]))[0]
+    tweet['fields']['user'] = json.loads(serializers.serialize("json", [status.user]))[0]
+    print tweet
+    return render_json(request, tweet)
+
+
+def _build_location_tree(location):
+    tree = {'pk': location.pk, 'name': location.name, 'size': 1000.0 / (location.depth + 1), 'children': []}
+
+    for l in location.location_set.all().order_by('-latitude'):
+        tree['children'].append(_build_location_tree(l))
+
+    return tree
+
+
+def place_names(request):
+
+    saved = False
+
+    if request.method == 'POST': # If the form has been submitted...
+        form = AddNameForm(request.POST) # A form bound to the POST data
+        if form.is_valid(): # All validation rules pass
+            print 'form is valid', form.cleaned_data
+            loc = Location.objects.get(pk=form.cleaned_data['location_pk'])
+            loc.add_name(form.cleaned_data['name'])
+            #UserFeatures.objects.filter(user__location=form.cleaned_data['name']).update(location=loc)
+            saved = True
+            #return HttpResponseRedirect('/util/common-place-names/') # Redirect after POST
+    else:
+        form = AddNameForm() # An unbound form
+
+
+    unknown_names = User.objects.exclude(location='').filter(characterization__location_depth_0=None).values('location').annotate(count=Count('location')).order_by('-count')[:1000]
+    locations = _build_location_tree(Location.objects.get(pk=settings.MAIN_LOCATION_ID))
+
+    return render(request, 'util/location-names.html', {
+        'unknown_names': json.dumps(list(unknown_names)),
+        'form': form,
+        'locations': json.dumps(locations),
+        'saved': saved
+    })
+
+
+from django.contrib.auth.decorators import login_required
+@flogin_required
+def home(request):
+        return render(request, 'site/index.html')

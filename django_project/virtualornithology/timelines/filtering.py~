@@ -1,0 +1,181 @@
+from collections import Counter
+import numpy as np
+import random
+
+
+class TimelineFilter(object):
+    def __init__(self, characterizer, skip_fields=None, max_entropy_percentile=100.0, time_bucket_size=10, start_strategy=None, pick_strategy=None, popularity_bucket_size=100, min_date=None):
+        self.characterizer = characterizer
+        self.skip_fields = skip_fields
+        self.followers_bucket_size = 1000
+        self.tweets_bucket_size = 1000
+        self.time_bucket_size = time_bucket_size
+        self.popularity_bucket_size = popularity_bucket_size
+        self.max_entropy_percentile = max_entropy_percentile
+        self.min_date = min_date
+
+        if start_strategy is None:
+            self.start_strategy = TimelineFilter.starting_tweet
+        else:
+            self.start_strategy = start_strategy
+
+        if pick_strategy is None:
+            self.pick_strategy = TimelineFilter.select_tweet
+        else:
+            self.pick_strategy = pick_strategy
+
+        self.feature_keys = tuple(['popularity', 'followers', 'friends', 'n_tweets', 'hub', 'diffusion', 'reply', 'geography', 'time', 'url', 'topics'])
+        self.timeline = []
+        self.timeline_ids = set()
+        self.timeline_feature_vectors = []
+        self.feature_vector_counts = Counter()
+
+    def reset(self):
+        del self.timeline[:]
+        del self.timeline_feature_vectors[:]
+        self.feature_vector_counts = Counter()
+        self.timeline_ids.clear()
+
+    def __iter__(self):
+            return self.timeline.__iter__()
+
+    def __add_tweet__(self, tweet):
+        self.timeline.append(tweet)
+        self.timeline_ids.add(tweet['pk'])
+        self.timeline_feature_vectors.append(tweet['__feature_vector__'])
+        self.feature_vector_counts.update([tweet['__feature_vector__']])
+        
+        #print 'tweet', len(self), tweet['geography'], tweet['popularity'], tweet['text']
+
+    def __call__(self, tweets):
+        if not self.timeline:
+            first = self.start_strategy(tweets)
+            self.__add_tweet__(first)
+            return first
+
+        pairs = []
+        max_diversity = 0.0
+
+        for tweet in tweets:
+            if tweet['pk'] in self.timeline_ids:
+                continue
+
+            #self.timeline_feature_vectors.append(tweet['__feature_vector__'])
+            self.feature_vector_counts.update([tweet['__feature_vector__']])
+            tweet_entropy = self.__estimate_entropy__()
+            self.feature_vector_counts.subtract([tweet['__feature_vector__']])
+            
+            if self.feature_vector_counts[tweet['__feature_vector__']] <= 0:
+                del self.feature_vector_counts[tweet['__feature_vector__']]
+            
+            pairs.append((tweet_entropy, tweet))
+
+            if tweet_entropy >= max_diversity:
+                max_diversity = tweet_entropy
+
+            #self.timeline_feature_vectors.pop()
+            
+
+        candidates = [p[1] for p in pairs if np.equal(p[0], max_diversity)]
+        selected = self.pick_strategy(candidates)
+
+        if selected:
+            self.__add_tweet__(selected)
+
+        return selected
+
+    def __len__(self):
+        return len(self.timeline)
+
+    def prepare_tweet(self, tweet):
+        if not 'char' in tweet:
+            tweet['char'] = self.characterizer.characterize_text(tweet['text'])
+
+        tweet['buckets'] = {
+            'followers': tweet['user__followers_count'] - tweet['user__followers_count'] % self.followers_bucket_size,
+            'friends': tweet['user__friends_count'] - tweet['user__friends_count'] % self.followers_bucket_size,
+            'n_tweets': tweet['user__statuses_count'] - tweet['user__statuses_count'] % self.tweets_bucket_size,
+            'geography': tweet['geography'],
+            'url': bool(tweet['char']['links']),
+            'reply': bool(tweet['text'].startswith(u'@')),
+            'diffusion': bool(tweet['text'].startswith(u'RT ')),
+            'popularity': tweet['popularity'] - tweet['popularity'] % self.popularity_bucket_size
+        }
+
+        if tweet['buckets']['friends'] == 0:
+            tweet['buckets']['hub'] = 0
+        else:
+            tweet['buckets']['hub'] = int(tweet['buckets']['followers'] / tweet['buckets']['friends'])
+
+        delta = tweet['datetime'] - self.min_date
+        total_minutes = int(delta.total_seconds() / 60.0)
+        time_bucket = total_minutes / self.time_bucket_size
+        tweet['buckets']['time'] = time_bucket
+
+        if not self.skip_field('topics'):
+            if tweet['char']['hashtags']:
+                ht = tweet['char']['hashtags'][0]
+            else:
+                ht = None
+
+            tweet['buckets']['topics'] = ht
+
+        tweet['__feature_vector__'] = self.__feature_vector__(tweet)
+
+    def feature_vector_keys(self):
+        keys = []
+        for field in self.feature_keys:
+            if self.skip_field(field):
+                continue
+
+            keys.append(field)
+
+        return keys
+
+    def __feature_vector__(self, tweet):
+        vec = []
+        for field in self.feature_keys:
+            if self.skip_field(field):
+                continue
+
+            vec.append(tweet['buckets'][field])
+
+        return tuple(vec)
+
+    def __estimate_entropy__(self):
+        counts = self.feature_vector_counts #Counter(self.timeline_feature_vectors)
+        #print counts
+        #N = float(sum(counts.values()))
+        N = float(len(self.timeline) + 1)
+        max_H = np.log(float(len(filter(lambda x: x, counts))))
+
+        if np.equal(max_H, 0.0):
+            return 0.0
+
+        entropy = 0.0
+
+        for key in counts.iterkeys():
+            if counts[key] > 0:
+                key_probability = counts[key] / N
+                entropy += -(key_probability * np.log(key_probability))
+
+        entropy /= max_H
+
+        #print u'N={0}, |counts|={3}, max_H={1}, entropy={2}, counter={4}'.format(N, max_H, entropy, len(counts), counts)
+        return entropy
+
+    def skip_field(self, x):
+        return bool(self.skip_fields and x in self.skip_fields)
+
+    @classmethod
+    def select_tweet(cls, tweets):
+        return max(tweets, key=lambda x: x['popularity'])
+
+    @classmethod
+    def starting_tweet(cls, tweets):
+        max_rt_count = max(tweets, key=lambda e: e['popularity'])['popularity']
+        candidates = [t for t in tweets if t['popularity'] == max_rt_count]
+        selected = random.choice(candidates)
+        print u'[{0} retweets] {1}'.format(max_rt_count, selected['text'])
+        return selected
+

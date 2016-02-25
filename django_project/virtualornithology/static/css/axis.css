@@ -1,0 +1,28 @@
+.axis path {
+  shape-rendering: crispEdges;
+}
+
+/* 
+check
+http://bl.ocks.org/mbostock/4583749
+*/
+.axis line {
+  stroke: #666;
+  stroke-dasharray: 1,4;
+}
+
+.axis .tick.minor {
+  stroke-opacity: .25;
+}
+
+.axis .tick {
+    stroke-opacity: 0.5;
+}
+
+.axis path {
+  fill: none;
+}
+
+.axis text {
+    font-size: 11px;
+}

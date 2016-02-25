@@ -1,0 +1,22 @@
+{% extends "site/base.html" %}
+
+{% block header %}
+    <link href="{{ STATIC_URL }}linspiration/css/linspiration.css" rel="stylesheet" />
+    <!--
+    <script type="text/javascript" src="{{ STATIC_URL }}libs/d3-parsets-master/d3.parsets.js"></script>
+    -->
+{% endblock%}
+
+{% block content %}
+    <div class="row">
+        <div class="span12">
+                <h3>Basic Stats</h3>
+                <div id="stats-table"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/coffeescript" src='{{ STATIC_URL }}cs/functions.coffee'></script>
+    <script type="text/coffeescript" src='{{ STATIC_URL }}cs/home_stats.coffee'></script>
+{% endblock %}

@@ -1,0 +1,21 @@
+/* Sticky footer styles -- from http://getbootstrap.com/examples/sticky-footer-navbar/
+-------------------------------------------------- */
+html {
+  min-height: 100%;
+    position: relative;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 40px;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 40px;
+  background-color: #444;
+}
+
+div.form-group { margin-bottom: 5px; font-size: 90%; }
+.navbar { margin-bottom: 0; }

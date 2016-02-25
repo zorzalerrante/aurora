@@ -1,0 +1,158 @@
+{% extends "site/base.html" %}
+
+{% block header %}
+<script type="text/javascript" src="{{ STATIC_URL }}libs/d3.layout.cloud.js"></script>
+
+<style>
+div.popover {
+    width: 312px;
+    max-width: 312px;
+}
+
+div.container-fluid {
+    margin: auto;
+    max-width: 1100px;
+    width: 1100px;
+}
+
+.tweet a {
+    color: #333;
+}
+
+.tweet .text {
+    margin-top: 3px;
+    font-family: Georgia, 'Times New Roman', Palatino, serif;
+    font-size: 18px;
+    line-height: 24px;
+    color: #333;
+}
+
+.tweet .time {
+    color: #707070;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.tweet a .full-name {
+    font-size: 16px;
+    line-height: 16px;
+}
+
+.tweet a .screen-name {
+    color: #666;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+</style>
+
+{% endblock%}
+
+{% block content %}
+<div class="row-fluid">
+    <div class="span12">
+        <div id="network"></div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/coffeescript" src='{{ STATIC_URL }}vis/twitter-entities.coffee'></script>
+<script type="text/coffeescript" src='{{ STATIC_URL }}vis/force-directed-graph.coffee'></script>
+<script type="text/coffeescript">
+
+# considerar esto http://bl.ocks.org/mbostock/1804919
+
+color = d3.scale.category20()
+node_radius = 24
+
+width = 1200
+height = 520
+
+force_directed = window.aleph.force_directed()
+    .clamp_to_viewport(true)
+    .width(width)
+    .height(height)
+    .node_radius(24)
+
+
+svg = d3.select("#network").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+
+
+defs = svg.append('defs')
+
+defs.append('clipPath').attr('id', 'clip-circle').append('circle')
+    .attr('r', node_radius - 3)
+    .attr('cx', node_radius)
+    .attr('cy', node_radius)
+
+
+force_directed.painter((node) ->
+    node.append('circle')
+        .attr('cx', node_radius)
+        .attr('cy', node_radius)
+        .attr('r', node_radius)
+        .attr('fill', (d) -> color(0))
+        .attr('stroke', 'black')
+        .attr('stroke-width', 1)
+    
+    node.on('click', (e) ->
+        console.log 'e', e
+        position = 'top'
+        if e.y <= (height * 0.5)
+            position = 'bottom'
+        aleph.show_tweet(@, e.tweets[0], position)
+    )
+
+    node.append("image")
+        .attr('xlink:href', (d) -> d.fields.profile_image_url)
+        .attr('width', node_radius * 2)
+        .attr('height', node_radius * 2)
+        .attr('clip-path', 'url(#clip-circle)')
+
+    node.append("title")
+        .text((d) -> d.fields.name)
+)
+
+d3.json("/api/portraits/ego-network/#{40}", (error, graph) ->
+    console.log graph
+
+    d3.select('#dt-count-nodes').text(graph.nodes.length)
+    d3.select('#dt-count-links').text(graph.links.length)
+
+    id_map = {}
+    node_map = {}
+
+
+    graph.nodes.forEach (n, i) ->
+        n = graph.nodes[i]
+        id_map[n.pk] = i
+        node_map[i] = n
+        n.key = n.pk
+        n.pk = i
+        n.r = node_radius
+        n.tweets = []
+
+
+    graph.tweets.forEach (tweet, i) ->
+        console.log tweet
+        if tweet?
+            author = graph.nodes[id_map[tweet.fields.user]]
+            tweet.fields.user = graph.nodes[id_map[tweet.fields.user]]
+            author.tweets.push(tweet)
+     
+    console.log 'tweets', graph.tweets
+
+    console.log id_map
+
+    graph.links.forEach (l) ->
+        l.source = id_map[l.source]
+        l.target = id_map[l.target]
+
+    svg.datum(graph).call(force_directed)
+)
+</script>
+{% endblock %}
